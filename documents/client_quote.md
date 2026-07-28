@@ -1,5 +1,9 @@
 # Picnic Planner App
 
+## Project vision statement:
+
+`For a person organizing a picnic or gathering, this website helps organize the event by allowing them to add guests, create item lists, and assign responsibilities.`
+
 ## Client need
 
 Picnic Planner is a collaborative web application designed to simplify the organization of group picnics and outdoor gatherings. Organizers often rely on group chats to coordinate supplies, which can lead to duplicate items and forgotten essentials. The application should provide a shared planning space where organizers and guests can collaborate, assign responsibilities, and keep all picnic information in one place.
@@ -8,13 +12,13 @@ An organizer creates a picnic and shares an invitation code with guests. Partici
 
 ## Target users
 
-### Primary user
+- Primary user
 
-Adults who organize picnics, barbecues, outdoor gatherings, or small social events and need an easy way to coordinate supplies among participants.
+  Adults who organize picnics, barbecues, outdoor gatherings, or small social events and need an easy way to coordinate supplies among participants.
 
-### Secondary users
+- Secondary users
 
-Friends, family members, classmates, or colleagues who are invited to a picnic and need a simple way to see what is needed, volunteer to bring items, and update their contributions.
+  Friends, family members, classmates, or colleagues who are invited to a picnic and need a simple way to see what is needed, volunteer to bring items, and update their contributions.
 
 ## Probleme
 
