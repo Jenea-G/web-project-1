@@ -27,21 +27,22 @@ Planning a picnic with multiple participants through messaging applications or s
 ## Must-have features
 
 1. Register, log in, and log out.
-2. Create a picnic (name, date, location, short description).
+2. Create a picnic (name, date, location).
 3. Create/generate an invitation code.
 4. View picnic details.
-5. Create categories.
+5. Choose categories.
 6. Join a picnic using an invitation code.
 7. Add, edit, and delete items.
 8. Grab an item.
 9. Drop an item.
 10. Display who is bringing each item.
-11. Highlight important unclaimed items.
+11. Highlight unclaimed items.
 12. Display guests names
 
 ## Optional features
 
 1. Item quantities.
-2. Sort or filter items by category, guest, or claim status.
+2. Search through items or filter by guests.
 3. Guests can suggest alternative picnic dates or locations.
 4. Organizer can create a poll for the final date or location.
+5. Adding a picnic image or chossing from the ones proposed.
