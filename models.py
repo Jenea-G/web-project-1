@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
         self.picnics.append(picnic) # collect picnic objects
 
     def __repr__(self):
-        return f"<User {self.user_id}: {self.username}>"
+        return f"<User {self.id}: {self.username}>"
     
 # Picnic model
 class Picnic(db.Model):
@@ -60,4 +60,42 @@ class Picnic(db.Model):
     )
 
     def __repr__(self):
-        return f"<Picnic {self.picnic_id}: '{self.picnic_name}'>"
+        return f"<Picnic {self.id}: '{self.picnic_name}'>"
+    
+    # ! need to store all the guests to display names on the page and to show who claimed items
+    
+class ItemCategory(Enum):
+    FOOD = "Food"
+    DRINKS = "Drinks"
+    EQUIPMENT = "Equipment"
+    DESSERTS = "Desserts"
+    ENTERTAINMENT = "Entertainment"
+    SNACKS = "Snacks"
+
+# create Item model
+class Item(db.Model):
+    __tablename__ = "item"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(155), nullable=False)
+
+    category = db.Column(
+        db.Enum(ItemCategory),
+        nullable=False
+    )
+
+    picnic_id = db.Column(
+        db.Integer,
+        db.ForeignKey("picnic.id"),
+        nullable=False
+    )
+
+    picnic = db.relationship(
+        "Picnic",
+        back_populates="items"
+    )
+
+    def __repr__(self):
+        return f"<Item {self.id}: {self.name}>"
+    
+    # each item should have a property claimed or not and methods: grab/drop which will change is_claimed property.
