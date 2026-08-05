@@ -21,6 +21,7 @@ class User(UserMixin, db.Model):
         "Picnic",
         back_populates="user" #refers to Picnic.user
     )
+    claimed_items = db.relationship("Item", back_populates="claimed_by_user") # user - items relationship
 
     # methods
     def set_password(self, password):
@@ -48,16 +49,14 @@ class Picnic(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
-    user = db.relationship(
-        "User",
-        back_populates="picnics" # refers to the attribute on User.picnics
+    user = db.relationship("User", back_populates="picnics" # refers to the attribute on User.picnics
     )
 
     # creating `picnic - items` relationship
-    items = db.relationship(
-        "Item",
-        back_populates="picnic"
-    )
+    items = db.relationship("Item", back_populates="picnic")
+
+    # creating `picnic - guests` relationship
+    guests = db.relationship("Guest", back_populates="picnic")
 
     def __repr__(self):
         return f"<Picnic {self.id}: '{self.picnic_name}'>"
@@ -78,24 +77,71 @@ class Item(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(155), nullable=False)
+    category = db.Column(db.Enum(ItemCategory), nullable=False)
 
-    category = db.Column(
-        db.Enum(ItemCategory),
-        nullable=False
-    )
+    claimed_by_user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True) # will store the user.id if claimed_by_user
+    claimed_by_guest_id = db.Column(db.Integer, db.ForeignKey("guest.id"), nullable=True) # will store the guest.id if claimed by guest
 
-    picnic_id = db.Column(
-        db.Integer,
-        db.ForeignKey("picnic.id"),
-        nullable=False
-    )
+    picnic_id = db.Column(db.Integer, db.ForeignKey("picnic.id"), nullable=False)
 
-    picnic = db.relationship(
-        "Picnic",
-        back_populates="items"
-    )
+    picnic = db.relationship("Picnic", back_populates="items")
+    claimed_by_user = db.relationship("User", back_populates="claimed_items") # 'items to user' relationship
+    claimed_by_guest = db.relationship("Guest", back_populates="claimed_items") # 'items to guest' relationship
+
+    @property
+    def is_claimed(self):
+        return (
+            self.claimed_by_user_id is not None
+            or self.claimed_by_guest_id is not None
+        )
+
+    @property
+    def claimant_type(self):
+        if self.claimed_by_user_id is not None:
+            return "user"
+
+        if self.claimed_by_guest_id is not None:
+            return "guest"
+
+        return None
+
+    def claim_by_user(self, user):
+        if self.is_claimed:
+            return False
+
+        self.claimed_by_user = user
+        self.claimed_by_guest = None
+        return True
+
+    def claim_by_guest(self, guest):
+        if self.is_claimed:
+            return False
+        
+        self.claimed_by_guest = guest
+        self.claimed_by_user = None
+        return True
+    
+    def drop(self):
+        self.claimed_by_user = None
+        self.claimed_by_guest = None
 
     def __repr__(self):
         return f"<Item {self.id}: {self.name}>"
     
-    # each item should have a property claimed or not and methods: grab/drop which will change is_claimed property.
+    # each item has a property is_claimed and methods: claim_by_user /claim_by_guest and drop
+
+
+# create Guest model
+class Guest(db.Model):
+    __tablename__= "guest"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(155), nullable=False)
+    pin = db.Column(db.String(10), nullable=False)
+
+    picnic_id = db.Column(db.Integer,db.ForeignKey("picnic.id"), nullable=False)
+
+    picnic = db.relationship("Picnic", back_populates="guests") # 'guests to picnic' relationship
+    claimed_items = db.relationship("Item", back_populates="claimed_by_guest") # 'guest to items' relationship
+
+
