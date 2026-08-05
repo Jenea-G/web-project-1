@@ -1,45 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %} {% block title %} Register | Picnic App {% endblock %}
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picnic App</title>
-</head>
+<section>
+    <h1>Create an account</h1>
 
-<body>
-    <div class="container">
-        {% with messages = get_flashed_messages( with_categories=true ) %} {% if
-        messages %}
-        <section class="flash-messages">
-            {% for category, message in messages %}
-            <p class="flash {{ category }}">{{ message }}</p>
-            {% endfor %}
-        </section>
-        {% endif %} {% endwith %} {% block content %} {% endblock %}
-    </div>
-    <section>
-        <h1>Create an account</h1>
+    <form method="POST" class="form">
+        <div>
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" maxlength="50" required />
+        </div>
 
-        <form method="POST" class="form">
-            <div>
-                <label for="username">Username</label>
-                <input id="username" name="username" type="text" maxlength="50" required />
-            </div>
+        <div>
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" maxlength="155" required />
+        </div>
 
-            <div>
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" maxlength="155" required />
-            </div>
+        <div>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" minlength="8" maxlength="20" required />
+        </div>
 
-            <div>
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password" minlength="8" maxlength="20" required />
-            </div>
-
-            <button class="btn" type="submit">Create account</button>
-        </form>
-    </section>
-</body>
-
-</html>
+        <button class="btn" type="submit">Create account</button>
+    </form>
+</section>
+{% endblock %}
