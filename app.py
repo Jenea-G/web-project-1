@@ -253,3 +253,33 @@ def add_item(picnic_id):
     flash("Item added successfully.", "success")
 
     return redirect(url_for("picnic", picnic_id=picnic.id))
+
+# claim items by user
+@app.route("/items/<int:item_id>/grab", methods=["POST"])
+@login_required
+def grab_item(item_id):
+    item = Item.query.get_or_404(item_id)
+
+    if item.claim_by_user(current_user):
+        db.session.commit()
+        flash("You claimed the item.", "success")
+    else:
+        flash("This item has already been claimed.", "error")
+
+    return redirect(
+        url_for("picnic", picnic_id=item.picnic_id)
+    )
+
+# drop items
+@app.route("/items/<int:item_id>/drop", methods=["POST"])
+@login_required
+def drop_item(item_id):
+    item = Item.query.get_or_404(item_id)
+
+    if item.drop_by_user(current_user):
+        db.session.commit()
+        flash("Item dropped successfully.", "success")
+    else:
+        flash("You can only drop items you have claimed.", "error")
+
+    return redirect(url_for("picnic", picnic_id=item.picnic_id))
