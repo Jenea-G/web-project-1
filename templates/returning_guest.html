@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block title %} Return to picnic | Picnic App {% endblock %}
+{% block content %}
+<h1>Return to a picnic</h1>
+
+<form method="post" action="{{ url_for('returning_guest') }}">
+    <p>
+        <label for="invitation-code">
+            Invitation code
+        </label>
+
+        <input type="text" id="invitation-code" name="invitation_code" value="{{ invitation_code or '' }}" required>
+    </p>
+
+    <p>
+        <label for="guest-pin">Guest PIN</label>
+
+        <input type="password" id="guest-pin" name="guest_pin" inputmode="numeric" minlength="6" maxlength="6" required>
+    </p>
+
+    <button type="submit">Access picnic</button>
+</form>
+{% endblock %}

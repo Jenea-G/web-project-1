@@ -8,7 +8,7 @@
 <section>
     <h1>{{ picnic.picnic_name }}</h1>
 
-    <p>Welcome, {{ current_user.name }}</p>
+    <p>Welcome, {{ current_user.name or guest.name }}</p>
     <p>{{ picnic.date }}</p>
     <p>{{ picnic.location }}</p>
 

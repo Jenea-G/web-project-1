@@ -155,10 +155,18 @@ class Item(db.Model):
 # create Guest model
 class Guest(db.Model):
     __tablename__= "guest"
+    
+    __table_args__ = (
+        db.UniqueConstraint(
+            "picnic_id",
+            "pin",
+            name="unique_guest_pin_per_picnic"
+        ),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(155), nullable=False)
-    pin = db.Column(db.String(10), nullable=False)
+    pin = db.Column(db.String(6), nullable=False)
 
     picnic_id = db.Column(db.Integer,db.ForeignKey("picnic.id"), nullable=False)
 
