@@ -6,6 +6,8 @@ from flask_login import (LoginManager, login_user, logout_user, current_user, lo
 
 from models import (db, User, Picnic, Item, Guest, ItemCategory)
 
+from datetime import datetime
+
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///picnic_app.db")
@@ -143,3 +145,60 @@ def logout():
 
     flash("You have been logged out.", "success")
     return redirect(url_for("home"))
+
+# picnics
+@app.route("/picnics")
+@login_required
+def picnics():
+    user_picnics = Picnic.query.filter_by(
+        user_id=current_user.id
+    ).all()
+
+    return render_template(
+        "picnics.html",
+        picnics=user_picnics
+    )
+
+# create_picnic
+@app.route("/picnics/create", methods=["GET", "POST"])
+@login_required
+def create_picnic():
+    if request.method == "POST":
+        picnic_name = request.form.get("picnic_name").strip()
+        location = request.form.get("location").strip()
+        date_str = request.form.get("date")
+        date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        invitation_code = request.form.get("invitation_code").strip()
+
+        errors = []
+
+        if not picnic_name:
+            errors.append("Picnic name is required.")
+        
+        if not location:
+            errors.append("Location is required.")
+
+        if not invitation_code:
+            errors.append("Invitation code is required.")
+
+        if errors:
+            for error in errors:
+                flash(error, "error")
+
+            return render_template("create_picnic.html")
+
+        picnic = Picnic(
+            picnic_name=picnic_name,
+            invitation_code=invitation_code,
+            location=location,
+            date=date,
+            categories="Food,Drinks",
+            user=current_user
+        )
+
+        db.session.add(picnic)
+        db.session.commit()
+
+        return redirect(url_for("picnics"))
+
+    return render_template("create_picnic.html")

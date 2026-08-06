@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block title %} Picnics | Picnic App {% endblock %}
+{% block content %}
+<section>
+    <h1>Welcome, {{ current_user.name }}</h1>
+
+    <p>Browse or add your picnics.</p>
+    <a class="btn" href="{{ url_for('create_picnic') }}">
+        Create a picnic
+    </a>
+    <div>
+        <!-- Check if the user has books -->
+        {% if picnics|length == 0 %}
+        <p>There are no picnics yet.</p>
+        {% else %}
+        <!-- display picnic if there are picnics -->
+        <h2>Your picnics:</h2>
+        {% for picnic in picnics %}
+
+        <h3>{{ picnic.picnic_name }}</h3>
+        <p>{{ picnic.date }}</p>
+        <p>{{ picnic.location }}</p>
+        <div>
+            <a href="">View</a>
+        </div>
+        <!-- end of book row -->
+        {% endfor %}
+        {% endif %}
+    </div>
+
+</section>
+{% endblock %}

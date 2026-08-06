@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block title %} Create | Picnic App {% endblock %}
+{% block content %}
+<section>
+    <h1>Create your picnic</h1>
+    <form method="POST">
+
+        <div>
+            <label for="picnic_name">Picnic name</label>
+            <input type="text" id="picnic_name" name="picnic_name" maxlength="155" required>
+        </div>
+
+        <div>
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" maxlength="155" required>
+        </div>
+
+        <div>
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+
+        <div>
+            <label for="invitation_code">Invitation code</label>
+            <input type="text" id="invitation_code" name="invitation_code" maxlength="155" required>
+        </div>
+
+        <button type="submit">
+            Create Picnic
+        </button>
+
+    </form>
+</section>
+{% endblock %}
