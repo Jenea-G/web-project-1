@@ -105,8 +105,8 @@ def register():
 
         flash("Your account has been created!", "success")
 
-        #return redirect(url_for("login"))
-        return redirect(url_for("home")) #to check if /registration works
+        return redirect(url_for("login"))
+        #return redirect(url_for("home")) #to check if /registration works
     
     return render_template("register.html")
 
@@ -147,7 +147,7 @@ def logout():
     return redirect(url_for("home"))
 
 # picnics
-@app.route("/picnics")
+@app.route("/picnics", methods=["GET"])
 @login_required
 def picnics():
     user_picnics = Picnic.query.filter_by(
@@ -202,3 +202,54 @@ def create_picnic():
         return redirect(url_for("picnics"))
 
     return render_template("create_picnic.html")
+
+# picnic
+@app.route("/picnic/<int:picnic_id>/", methods=["GET"])
+@login_required
+def picnic(picnic_id):
+    picnic = Picnic.query.filter_by(id=picnic_id, user_id=current_user.id).first_or_404()
+
+    return render_template(
+        "picnic.html", picnic=picnic)
+
+@app.route("/picnic/<int:picnic_id>/items/add", methods=["POST"])
+@login_required
+def add_item(picnic_id):
+    picnic = Picnic.query.filter_by(
+        id=picnic_id,
+        user_id=current_user.id
+    ).first_or_404()
+
+    item_name = request.form.get("item_name", "").strip()
+    category_name = request.form.get("category", "").strip()
+
+    if not item_name:
+        flash("The item name is required.", "error")
+        return redirect(url_for("picnic", picnic_id=picnic.id))
+
+    if len(item_name) > 155:
+        flash("The item name is too long.", "error")
+        return redirect(url_for("picnic", picnic_id=picnic.id))
+
+    try:
+        category = ItemCategory[category_name]
+    except KeyError:
+        flash("Invalid item category.", "error")
+        return redirect(url_for("picnic", picnic_id=picnic.id))
+
+    if category not in picnic.selected_categories:
+        flash("This category is not available for this picnic.", "error")
+        return redirect(url_for("picnic", picnic_id=picnic.id))
+
+    item = Item(
+        name=item_name,
+        category=category,
+        picnic=picnic
+    )
+
+    db.session.add(item)
+    db.session.commit()
+
+    flash("Item added successfully.", "success")
+
+    return redirect(url_for("picnic", picnic_id=picnic.id))

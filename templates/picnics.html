@@ -20,9 +20,8 @@
         <p>{{ picnic.date }}</p>
         <p>{{ picnic.location }}</p>
         <div>
-            <a href="">View</a>
+            <a href="{{ url_for('picnic', picnic_id=picnic.id) }}">View</a>
         </div>
-        <!-- end of book row -->
         {% endfor %}
         {% endif %}
     </div>

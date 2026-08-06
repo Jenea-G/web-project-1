@@ -58,6 +58,27 @@ class Picnic(db.Model):
     # creating `picnic - guests` relationship
     guests = db.relationship("Guest", back_populates="picnic")
 
+    # get list of selected categories
+    @property
+    def selected_categories(self):
+        selected = []
+
+        categories = self.categories.split(",")
+        for category in categories:
+            selected.append(ItemCategory(category))
+
+        return selected
+
+    # get list of items by category
+    def get_items_by_category(self, category):
+        items_by_category = []
+
+        for item in self.items:
+            if item.category == category:
+                items_by_category.append(item)
+        
+        return items_by_category
+    
     def __repr__(self):
         return f"<Picnic {self.id}: '{self.picnic_name}'>"
     

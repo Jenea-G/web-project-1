@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ picnic.picnic_name }} | Picnic App
+{% endblock %}
+
+{% block content %}
+<section>
+    <h1>{{ picnic.picnic_name }}</h1>
+
+    <p>Welcome, {{ current_user.name }}</p>
+    <p>{{ picnic.date }}</p>
+    <p>{{ picnic.location }}</p>
+
+    {% for category in picnic.selected_categories %}
+    <section>
+        <h2>{{ category.value }}</h2>
+
+        {% set items = picnic.get_items_by_category(category) %}
+
+        {% if items %}
+        <ul>
+            {% for item in items %}
+            <li>
+                {{ item.name }}
+
+                {% if item.is_claimed %}
+                {% if item.claimed_by_user %}
+                — {{ item.claimed_by_user.name }}
+                {% elif item.claimed_by_guest %}
+                — {{ item.claimed_by_guest.name }}
+                {% endif %}
+
+                {% if item.claimed_by_user_id == current_user.id %}
+                <form action="" method="POST">
+                    <button type="submit">Drop</button>
+                </form>
+                {% endif %}
+                {% else %}
+                <form action="" method="POST">
+                    <button type="submit">Grab</button>
+                </form>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No items in this category yet.</p>
+        {% endif %}
+
+        <form action="{{ url_for('add_item', picnic_id=picnic.id) }}" method="POST">
+            <input type="text" name="item_name" placeholder="Add an item" required>
+
+            <input type="hidden" name="category" value="{{ category.name }}">
+
+            <button type="submit">Add item</button>
+        </form>
+    </section>
+    {% endfor %}
+</section>
+{% endblock %}
