@@ -284,18 +284,36 @@ def add_item(picnic_id):
         flash("You cannot add items to this picnic.", "error")
 
     return redirect(url_for("picnic", picnic_id=picnic.id))
-
     
 
-# claim items by user
+# claim items by user(organizer) or guest
 @app.route("/items/<int:item_id>/grab", methods=["POST"])
-@login_required
 def grab_item(item_id):
     item = Item.query.get_or_404(item_id)
+    picnic = item.picnic
 
-    if item.claim_by_user(current_user):
-        db.session.commit()
-        flash("You claimed the item.", "success")
+    if not item.is_claimed:
+
+        guest = Guest.query.filter_by(
+            id=session.get("guest_id"),
+            picnic_id=picnic.id
+        ).first()
+
+        # Claim by organizer
+        if (current_user.is_authenticated and picnic.user_id == current_user.id):
+            item.claim_by_user(current_user)
+            db.session.commit()
+            flash("You claimed the item.", "success")
+
+        # Claim by guest
+        elif guest:
+            item.claim_by_guest(guest)
+            db.session.commit()
+            flash("You claimed the item.", "success")
+
+        else:
+            flash("You cannot claim items from this picnic.", "error")
+
     else:
         flash("This item has already been claimed.", "error")
 
