@@ -321,15 +321,30 @@ def grab_item(item_id):
         url_for("picnic", picnic_id=item.picnic_id)
     )
 
-# drop items
+# drop items by user or guest who have claimed them
 @app.route("/items/<int:item_id>/drop", methods=["POST"])
-@login_required
 def drop_item(item_id):
     item = Item.query.get_or_404(item_id)
+    picnic = item.picnic
 
-    if item.drop_by_user(current_user):
+    guest = Guest.query.filter_by(
+        id=session.get("guest_id"),
+        picnic_id=picnic.id
+    ).first()
+
+    can_drop = False
+
+    if (current_user.is_authenticated and item.claimed_by_user_id == current_user.id):
+        can_drop = True
+
+    elif (guest and item.claimed_by_guest_id == guest.id):
+        can_drop = True
+
+    if can_drop:
+        item.drop()
         db.session.commit()
         flash("Item dropped successfully.", "success")
+
     else:
         flash("You can only drop items you have claimed.", "error")
 

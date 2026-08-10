@@ -25,17 +25,21 @@
                 {{ item.name }}
 
                 {% if item.is_claimed %}
-                {% if item.claimed_by_user %}
-                — {{ item.claimed_by_user.name }}
-                {% elif item.claimed_by_guest %}
-                — {{ item.claimed_by_guest.name }}
+                {% if item.claimed_by_user %} — {{ item.claimed_by_user.name }}
+                {% elif item.claimed_by_guest %} — {{ item.claimed_by_guest.name }}
                 {% endif %}
 
-                {% if item.claimed_by_user_id == current_user.id %}
+                {% if current_user.is_authenticated and item.claimed_by_user_id == current_user.id %}
+                <form action="{{ url_for('drop_item', item_id=item.id) }}" method="POST">
+                    <button type="submit">Drop</button>
+                </form>
+
+                {% elif guest and item.claimed_by_guest_id == guest.id %}
                 <form action="{{ url_for('drop_item', item_id=item.id) }}" method="POST">
                     <button type="submit">Drop</button>
                 </form>
                 {% endif %}
+
                 {% else %}
                 <form action="{{ url_for('grab_item', item_id=item.id) }}" method="POST">
                     <button type="submit">Grab</button>
