@@ -238,7 +238,6 @@ def picnic(picnic_id):
 def add_item(picnic_id):
     picnic = Picnic.query.get_or_404(picnic_id)
 
-
     # Guest
     guest = Guest.query.filter_by(
             id=session.get("guest_id"),
@@ -383,6 +382,78 @@ def delete_item(item_id):
 
     return redirect(url_for("picnic", picnic_id=picnic.id))
 
+# edit items logic
+@app.route("/items/<int:item_id>/edit", methods=["GET", "POST"])
+def edit_item(item_id):
+    item = Item.query.get_or_404(item_id)
+    picnic = item.picnic
+
+    guest = Guest.query.filter_by(
+        id=session.get("guest_id"),
+        picnic_id=picnic.id
+    ).first()
+
+    organizer = (current_user.is_authenticated and picnic.user_id == current_user.id)
+
+    # Must belong to this picnic
+    if not organizer and not guest:
+        flash("You cannot edit items from this picnic.", "error")
+        return redirect(url_for("picnic", picnic_id=picnic.id))
+
+    # Item must be free or claimed by this participant
+    can_edit = (not item.is_claimed
+                or (organizer and item.claimed_by_user_id == current_user.id)
+                or (guest and item.claimed_by_guest_id == guest.id))
+
+    if not can_edit:
+        flash("You can only edit unclaimed items or items you have claimed.", "error")
+        return redirect(url_for("picnic", picnic_id=picnic.id))
+
+    # GET -> show form
+    if request.method == "GET":
+        return render_template("edit_item.html", item=item, picnic=picnic)
+
+    # POST
+    # Process submitted form
+    item_name = request.form.get("item_name", "").strip()
+    category_name = request.form.get("category", "").strip()
+
+    errors = []
+
+    if not item_name:
+        errors.append("The item name is required.")
+
+    if len(item_name) > 155:
+        errors.append("The item name is too long.")
+
+    try:
+        category = ItemCategory[category_name]
+    except KeyError:
+        category = None
+        errors.append("Invalid item category.")
+
+    if category and category not in picnic.selected_categories:
+        errors.append("This category is not available for this picnic.")
+
+    if errors:
+        for error in errors:
+            flash(error, "error")
+
+        return render_template("edit_item.html", item=item, picnic=picnic) 
+
+    item.name = item_name
+    item.category = category
+
+    db.session.commit()
+
+    flash("Item updated successfully.", "success")
+
+    return redirect(
+        url_for("picnic", picnic_id=picnic.id)
+    )
+
+
+# ===== Guest logic =====
 # importing module for secure random number generation
 import secrets
 
