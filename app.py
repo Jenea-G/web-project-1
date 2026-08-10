@@ -350,6 +350,39 @@ def drop_item(item_id):
 
     return redirect(url_for("picnic", picnic_id=item.picnic_id))
 
+# delete items by guests or users
+@app.route("/items/<int:item_id>/delete", methods=["POST"])
+def delete_item(item_id):
+    item = Item.query.get_or_404(item_id)
+    picnic = item.picnic
+
+    # Check guest
+    guest = Guest.query.filter_by(
+        id=session.get("guest_id"),
+        picnic_id=picnic.id
+    ).first()
+
+    # Check organizer
+    organizer = (current_user.is_authenticated and picnic.user_id == current_user.id)
+
+    # Must belong to the picnic
+    if not organizer and not guest:
+        flash("You cannot delete items from this picnic.", "error")
+        return redirect(
+            url_for("picnic", picnic_id=picnic.id))
+
+    # Cannot delete a claimed item
+    if item.is_claimed:
+        flash("You cannot delete an item that has been claimed.", "error")
+        return redirect(url_for("picnic", picnic_id=picnic.id))
+
+    db.session.delete(item)
+    db.session.commit()
+
+    flash("Item deleted successfully.", "success")
+
+    return redirect(url_for("picnic", picnic_id=picnic.id))
+
 # importing module for secure random number generation
 import secrets
 
