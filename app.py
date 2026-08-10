@@ -1,7 +1,7 @@
 # 1 Create the Flask application and database.
 import os
 from dotenv import load_dotenv
-from flask import (Flask, render_template, request, url_for, redirect, flash)
+from flask import (Flask, render_template, request, url_for, redirect, flash, session)
 from flask_login import (LoginManager, login_user, logout_user, current_user, login_required)
 
 from models import (db, User, Picnic, Item, Guest, ItemCategory)
@@ -204,55 +204,88 @@ def create_picnic():
     return render_template("create_picnic.html")
 
 # picnic
-@app.route("/picnic/<int:picnic_id>/", methods=["GET"])
-@login_required
+@app.route("/picnic/<int:picnic_id>")
 def picnic(picnic_id):
-    picnic = Picnic.query.filter_by(id=picnic_id, user_id=current_user.id).first_or_404()
+    picnic = Picnic.query.get_or_404(picnic_id)
 
-    return render_template(
-        "picnic.html", picnic=picnic)
+    # Check guest
+    guest = Guest.query.filter_by(
+        id=session.get("guest_id"),
+        picnic_id=picnic.id
+    ).first()
 
+    # Organizer
+    if current_user.is_authenticated and picnic.user_id == current_user.id:
+        return render_template(
+            "picnic.html",
+            picnic=picnic,
+        )
+
+    # Guest
+    if guest:
+        return render_template(
+            "picnic.html",
+            picnic=picnic,
+            guest=guest,
+        )
+
+    # Neither organizer nor valid guest
+    flash("You do not have access to this picnic.", "error")
+    return redirect(url_for("home"))
+
+# add items to the picnic by user or by guest
 @app.route("/picnic/<int:picnic_id>/items/add", methods=["POST"])
-@login_required
 def add_item(picnic_id):
-    picnic = Picnic.query.filter_by(
-        id=picnic_id,
-        user_id=current_user.id
-    ).first_or_404()
+    picnic = Picnic.query.get_or_404(picnic_id)
 
-    item_name = request.form.get("item_name", "").strip()
-    category_name = request.form.get("category", "").strip()
 
-    if not item_name:
-        flash("The item name is required.", "error")
-        return redirect(url_for("picnic", picnic_id=picnic.id))
+    # Guest
+    guest = Guest.query.filter_by(
+            id=session.get("guest_id"),
+            picnic_id=picnic.id
+        ).first()
+    
+    # Guest or registered user
+    if guest or (current_user.is_authenticated and picnic.user_id == current_user.id):
 
-    if len(item_name) > 155:
-        flash("The item name is too long.", "error")
-        return redirect(url_for("picnic", picnic_id=picnic.id))
+        item_name = request.form.get("item_name", "").strip()
+        category_name = request.form.get("category", "").strip()
 
-    try:
-        category = ItemCategory[category_name]
-    except KeyError:
-        flash("Invalid item category.", "error")
-        return redirect(url_for("picnic", picnic_id=picnic.id))
+        if not item_name:
+            flash("The item name is required.", "error")
+            return redirect(url_for("picnic", picnic_id=picnic.id))
 
-    if category not in picnic.selected_categories:
-        flash("This category is not available for this picnic.", "error")
-        return redirect(url_for("picnic", picnic_id=picnic.id))
+        if len(item_name) > 155:
+            flash("The item name is too long.", "error")
+            return redirect(url_for("picnic", picnic_id=picnic.id))
 
-    item = Item(
-        name=item_name,
-        category=category,
-        picnic=picnic
-    )
+        try:
+            category = ItemCategory[category_name]
+        except KeyError:
+            flash("Invalid item category.", "error")
+            return redirect(url_for("picnic", picnic_id=picnic.id))
 
-    db.session.add(item)
-    db.session.commit()
+        if category not in picnic.selected_categories:
+            flash("This category is not available for this picnic.", "error")
+            return redirect(url_for("picnic", picnic_id=picnic.id))
 
-    flash("Item added successfully.", "success")
+        item = Item(
+            name=item_name,
+            category=category,
+            picnic=picnic
+        )
+
+        db.session.add(item)
+        db.session.commit()
+
+        flash("Item added successfully.", "success")
+       
+    else:
+        flash("You cannot add items to this picnic.", "error")
 
     return redirect(url_for("picnic", picnic_id=picnic.id))
+
+    
 
 # claim items by user
 @app.route("/items/<int:item_id>/grab", methods=["POST"])
@@ -366,6 +399,8 @@ def join_picnic():
             "success"
         )
 
+        session["guest_id"] = guest.id # add guest to the session to remember him/her for further actions
+
         return render_template(
             "picnic.html",
             picnic=picnic,
@@ -424,6 +459,8 @@ def returning_guest():
                 "returning_guest.html",
                 invitation_code=invitation_code
             )
+
+        session["guest_id"] = guest.id # add guest to the session to remember him/her for further actions
 
         return render_template(
             "picnic.html",
