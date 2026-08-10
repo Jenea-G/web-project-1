@@ -170,6 +170,8 @@ def create_picnic():
         date = datetime.strptime(date_str, "%Y-%m-%d").date()
         invitation_code = request.form.get("invitation_code").strip()
 
+        categories = request.form.getlist("categories")
+
         errors = []
 
         if not picnic_name:
@@ -180,6 +182,9 @@ def create_picnic():
 
         if not invitation_code:
             errors.append("Invitation code is required.")
+
+        if not categories:
+            errors.append("Please select at least one category.")
 
         if errors:
             for error in errors:
@@ -192,16 +197,72 @@ def create_picnic():
             invitation_code=invitation_code,
             location=location,
             date=date,
-            categories="Food,Drinks",
+            categories=",".join(categories),
             user=current_user
         )
 
         db.session.add(picnic)
         db.session.commit()
 
+        flash("Picnic created successfully.", "success")
+
         return redirect(url_for("picnics"))
 
     return render_template("create_picnic.html")
+
+# edit picnic logic
+@app.route("/picnics/<int:picnic_id>/edit", methods=["GET", "POST"])
+@login_required
+def edit_picnic(picnic_id):
+    picnic = Picnic.query.get_or_404(picnic_id)
+
+    # Only the organizer can edit this picnic
+    if picnic.user_id != current_user.id:
+        flash("You cannot edit this picnic.", "error")
+        return redirect(url_for("picnic", picnic_id=picnic.id))
+
+    if request.method == "POST":
+        picnic_name = request.form.get("picnic_name").strip()
+        location = request.form.get("location").strip()
+        date_str = request.form.get("date")
+        date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        invitation_code = request.form.get("invitation_code").strip()
+
+        categories = request.form.getlist("categories")
+
+        errors = []
+
+        if not picnic_name:
+            errors.append("Picnic name is required.")
+        
+        if not location:
+            errors.append("Location is required.")
+
+        if not invitation_code:
+            errors.append("Invitation code is required.")
+
+        if not categories:
+            errors.append("Please select at least one category.")
+
+        if errors:
+            for error in errors:
+                flash(error, "error")
+
+            return render_template("edit_picnic.html",picnic=picnic,ItemCategory=ItemCategory)
+
+        picnic.picnic_name = picnic_name
+        picnic.invitation_code = invitation_code
+        picnic.location = location
+        picnic.date = date
+        picnic.categories = ",".join(categories)
+
+        db.session.commit()
+
+        flash("Picnic updated successfully.", "success")
+
+        return redirect(url_for("picnic", picnic_id=picnic.id))
+
+    return render_template("edit_picnic.html",picnic=picnic,ItemCategory=ItemCategory)
 
 # picnic
 @app.route("/picnic/<int:picnic_id>")
