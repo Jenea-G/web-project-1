@@ -53,10 +53,10 @@ class Picnic(db.Model):
     )
 
     # creating `picnic - items` relationship
-    items = db.relationship("Item", back_populates="picnic")
+    items = db.relationship("Item", back_populates="picnic", cascade="all, delete-orphan") # 'cascade all...' is essential to allow deleting picnic with its items
 
     # creating `picnic - guests` relationship
-    guests = db.relationship("Guest", back_populates="picnic")
+    guests = db.relationship("Guest", back_populates="picnic", cascade="all, delete-orphan") # guests will get removed together with picnic deletion
 
     # get list of selected categories
     @property

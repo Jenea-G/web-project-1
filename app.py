@@ -294,6 +294,20 @@ def picnic(picnic_id):
     flash("You do not have access to this picnic.", "error")
     return redirect(url_for("home"))
 
+# delete picnic
+@app.route("/picnics/<int:picnic_id>/delete", methods=["POST"])
+@login_required
+def delete_picnic(picnic_id):
+    # get current user's selected picnic
+    picnic = Picnic.query.filter_by(id=picnic_id, user_id=current_user.id).first_or_404()
+          
+    # delete
+    db.session.delete(picnic)
+    db.session.commit()
+
+    flash("Your picnic was successfully deleted", "success")
+    return redirect(url_for("picnics"))                   
+
 # add items to the picnic by user or by guest
 @app.route("/picnic/<int:picnic_id>/items/add", methods=["POST"])
 def add_item(picnic_id):
