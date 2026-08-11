@@ -13,7 +13,9 @@
     --secondary: #E13329;
     --secondary-light: #F29E8F;
     --header-bg: #C9D0C6;
+    --background: #FEFADF;
     --text: #003103;
+    --radius: 10px;
 }
 
 .container {
@@ -28,9 +30,16 @@ section {
 
 .feedback {
     position: absolute;
-    background-color: var(--header-bg);
+    background-color: var(--background);
+    top: 70px;
     left: 50%;
     transform: translateX(-50%);
+    box-shadow: 0 0 15px 0 #0031038c;
+    border-radius: var(--radius);
+}
+
+.feedback p {
+    margin: 0 20px;
 }
 
 header {
@@ -81,7 +90,7 @@ h1 {
     padding: 10px;
     width: 170px;
     border: 1px solid white;
-    border-radius: 10px;
+    border-radius: var(--radius);
     box-shadow: -10px 10px 0 0 var(--primary-light);
 
     cursor: pointer;

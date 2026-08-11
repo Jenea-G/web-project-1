@@ -1,24 +1,31 @@
 {% extends "base.html" %}
 {% block title %} Join picnic | Picnic App {% endblock %}
 {% block content %}
-<h1>Join a picnic</h1>
+<section>
+    <div class="container">
+        <h1>Join a picnic</h1>
 
-<form method="post" action="{{ url_for('join_picnic') }}">
-    <p>
-        <label for="picnic-name">Picnic name</label>
-        <input type="text" id="picnic-name" name="picnic_name" value="{{ picnic_name or '' }}" required>
-    </p>
+        <form method="post" action="{{ url_for('join_picnic') }}">
+            <p>
+                <label for="picnic-name">Picnic name</label>
+                <input type="text" id="picnic-name" name="picnic_name" value="{{ picnic_name or '' }}" required>
+            </p>
 
-    <p>
-        <label for="invitation-code">Invitation code</label>
-        <input type="text" id="invitation-code" name="invitation_code" value="{{ invitation_code or '' }}" required>
-    </p>
+            <p>
+                <label for="invitation-code">Invitation code</label>
+                <input type="text" id="invitation-code" name="invitation_code" value="{{ invitation_code or '' }}"
+                    required>
+            </p>
 
-    <p>
-        <label for="guest-name">Your name</label>
-        <input type="text" id="guest-name" name="guest_name" value="{{ guest_name or '' }}" maxlength="155" required>
-    </p>
+            <p>
+                <label for="guest-name">Your name</label>
+                <input type="text" id="guest-name" name="guest_name" value="{{ guest_name or '' }}" maxlength="155"
+                    required>
+            </p>
 
-    <button type="submit">Join picnic</button>
-</form>
+            <button type="submit">Join picnic</button>
+        </form>
+    </div>
+</section>
+
 {% endblock %}
