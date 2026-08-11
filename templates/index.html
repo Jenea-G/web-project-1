@@ -1,4 +1,12 @@
 {% extends "base.html" %} {% block title %} Home | Picnic App {% endblock %}
 {% block content %}
-Welcome to the picnic app
+<section class="home">
+    <div class="container">
+        <div class="div-cta">
+            <a href="{{ url_for('create_picnic') }}" class="cta">Create Picnic</a>
+            <a href="{{ url_for('join_picnic') }}" class="cta cta-secondary">Join Picnic</a>
+        </div>
+
+    </div>
+</section>
 {% endblock %}
