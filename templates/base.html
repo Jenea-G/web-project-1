@@ -17,6 +17,8 @@
 
                 <div>
                     {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('picnics') }}"><img src="{{ url_for('static', filename='images/basket.svg') }}"
+                            alt="Picnics" class="nav-icon"></a>
                     <a href="{{ url_for('logout') }}"><img src="{{ url_for('static', filename='images/logout.svg') }}"
                             alt="Logout" class="nav-icon"></a>
                     {% else %}

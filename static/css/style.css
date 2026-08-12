@@ -55,6 +55,14 @@ nav {
 
 .nav-icon {
     height: 35px;
+    margin-left: 20px;
+    transition: 0.3s;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.nav-icon:hover {
+    background-color: var(--primary);
 }
 
 h1 {
