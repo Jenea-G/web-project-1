@@ -5,8 +5,8 @@
 
         <h1>Welcome, {{ current_user.name }}</h1>
 
-        <p>Browse or add your picnics.</p>
-        <a class="btn" href="{{ url_for('create_picnic') }}">
+        <p>Browse your picnics or create a new one.</p>
+        <a class="btn btn-small btn-small-shadow" href="{{ url_for('create_picnic') }}">
             Create a picnic
         </a>
         <div>

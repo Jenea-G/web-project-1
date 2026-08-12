@@ -5,7 +5,7 @@
 
         <h1>User login</h1>
 
-        <div class="login-grid">
+        <div class="form-grid">
             <form method="post" class="form">
                 <div>
                     <label for="username">Username</label>
@@ -21,7 +21,7 @@
             </form>
             <div class="div-special">
                 <p class="p-special">New to Picnic App?</p>
-                <p class="p-special">Clic here <a href="">to register</a></p>
+                <p class="p-special">Clic here <a href="{{ url_for('register') }}">to register</a></p>
             </div>
         </div>
 

@@ -133,7 +133,7 @@ def login():
 
         flash("You are now logged in.", "success")
 
-        return redirect(url_for("home"))
+        return redirect(url_for("picnics"))
     
     return render_template("login.html")
 

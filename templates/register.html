@@ -1,29 +1,35 @@
 {% extends "base.html" %} {% block title %} Register | Picnic App {% endblock %}
 {% block content %}
 
-<section>
+<section class="register">
     <div class="container">
 
         <h1>Create an account</h1>
+        <div class="form-grid">
+            <form method="POST" class="form-green">
+                <div>
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text" maxlength="50" required />
+                </div>
 
-        <form method="POST" class="form">
+                <div>
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text" maxlength="155" required />
+                </div>
+
+                <div>
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" minlength="8" maxlength="20" required />
+                </div>
+
+                <button class="btn btn-small btn-small-shadow" type="submit">Create account</button>
+            </form>
             <div>
-                <label for="username">Username</label>
-                <input id="username" name="username" type="text" maxlength="50" required />
+                <div class="register-img"></div>
             </div>
+        </div>
 
-            <div>
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" maxlength="155" required />
-            </div>
 
-            <div>
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password" minlength="8" maxlength="20" required />
-            </div>
-
-            <button class="btn" type="submit">Create account</button>
-        </form>
 
     </div>
 </section>
