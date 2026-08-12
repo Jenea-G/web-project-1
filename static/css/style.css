@@ -160,13 +160,13 @@ h1 {
 }
 
 .login-grid form {
-    width: 400px;
+    width: 350px;
     margin: 0 0 0 auto;
 
 }
 
 .login-grid .div-special {
-    margin: 40px auto auto 60px;
+    margin: 50px auto auto 60px;
 }
 
 .login-grid form input {
@@ -211,4 +211,17 @@ form .btn-small {
 
 .p-special a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .login-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 350px);
+        grid-gap: 50px;
+        justify-content: center;
+    }
+
+    .login-grid .div-special {
+        margin: 0;
+    }
 }
