@@ -5,15 +5,19 @@
     margin: 0;
     padding: 0;
     color: var(--text);
+    letter-spacing: 0.5px;
+    box-sizing: border-box;
 }
 
 :root {
     --primary: #147E1A;
     --primary-light: #97C488;
+    --primary-light-50: rgb(151, 196, 136, 0.5);
     --secondary: #E13329;
     --secondary-light: #F29E8F;
     --header-bg: #C9D0C6;
     --background: #FEFADF;
+    --background-50: rgb(254, 250, 223, 0.6);
     --text: #003103;
     --radius: 10px;
 }
@@ -68,8 +72,13 @@ nav {
 h1 {
     font-size: 45px;
     font-family: 'Gluten';
+    letter-spacing: 0px;
     text-align: center;
     margin-bottom: 20px;
+}
+
+.p-special {
+    font-size: 18px;
 }
 
 .home {
@@ -80,7 +89,7 @@ h1 {
     height: calc(100vh - 60px);
 }
 
-.div-cta {
+.div-btn {
     position: absolute;
     bottom: 60px;
     left: 50%;
@@ -89,15 +98,15 @@ h1 {
     gap: 40px;
 }
 
-.cta {
-    color: white;
+.btn {
+    color: var(--background);
     text-decoration: none;
     text-align: center;
     font-size: 18px;
-    display: inline-block;
+    display: block;
     padding: 10px;
-    width: 170px;
-    border: 1px solid white;
+    min-width: 170px;
+    border: 1px solid var(--background);
     border-radius: var(--radius);
     box-shadow: -10px 10px 0 0 var(--primary-light);
 
@@ -105,15 +114,101 @@ h1 {
     transition: 0.3s;
 }
 
-.cta:hover {
+.btn-small {
+    font-size: 17px;
+    padding: 6px;
+    min-width: 150px;
+    border: 1px solid var(--primary-light);
+    background-color: var(--primary);
+    box-shadow: -8px 8px 0 0 var(--background-50);
+}
+
+.btn:hover {
     box-shadow: none;
     color: var(--primary-light);
 }
 
-.cta-secondary {
+.btn-secondary {
     box-shadow: -10px 10px 0 0 var(--secondary-light);
 }
 
-.cta-secondary:hover {
+.btn-secondary:hover {
     color: var(--secondary-light)
+}
+
+.login {
+    background-image: url(/static/images/login-bg.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: calc(100vh - 60px);
+    background-color: #00310341;
+    background-blend-mode: multiply;
+}
+
+.login h1,
+.login label,
+.login p {
+    color: var(--background);
+}
+
+.login-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 30px;
+    padding: 30px 0;
+}
+
+.login-grid form {
+    width: 400px;
+    margin: 0 0 0 auto;
+
+}
+
+.login-grid .div-special {
+    margin: 40px auto auto 60px;
+}
+
+.login-grid form input {
+    width: 100%;
+    padding: 8px;
+    border-radius: var(--radius);
+    background: var(--background-50) !important;
+    border: none;
+    margin: 3px 0 15px;
+}
+
+.login-grid form input:-webkit-autofill,
+.login-grid form input:-webkit-autofill:hover,
+.login-grid form input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 5px 0 var(--background-50) inset;
+    -webkit-text-fill-color: var(--text);
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.login-grid form input:focus {
+    outline: 1px solid var(--primary);
+    outline-offset: -3px;
+}
+
+.login-grid form div:last-of-type input {
+    margin-bottom: 30px;
+}
+
+form .btn-small {
+    margin: 0 0 0 auto;
+}
+
+.p-special a {
+    text-decoration: none;
+    background-color: var(--background);
+    border-radius: 5px;
+    padding: 0 5px 2px;
+    color: var(--primary);
+
+    transition: 0.3s;
+}
+
+.p-special a:hover {
+    text-decoration: underline;
 }

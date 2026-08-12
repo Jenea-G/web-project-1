@@ -1,23 +1,31 @@
 {% extends "base.html" %} {% block title %} Login | Picnic App {% endblock %}
 {% block content %}
-<section>
+<section class="login">
     <div class="container">
 
         <h1>User login</h1>
 
-        <form method="post" class="form">
-            <div>
-                <label for="username">Username</label>
-                <input id="username" name="username" type="text" value="{{ username or '' }}" required />
-            </div>
+        <div class="login-grid">
+            <form method="post" class="form">
+                <div>
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text" value="{{ username or '' }}" required />
+                </div>
 
-            <div>
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password" required />
-            </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" required />
+                </div>
 
-            <button class="btn" type="submit">Log in</button>
-        </form>
+                <button class="btn btn-small" type="submit">Log in</button>
+            </form>
+            <div class="div-special">
+                <p class="p-special">New to Picnic App?</p>
+                <p class="p-special">Clic here <a href="">to register</a></p>
+            </div>
+        </div>
+
+
 
     </div>
 </section>
