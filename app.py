@@ -647,7 +647,7 @@ def returning_guest():
                 flash(error, "error")
 
             return render_template(
-                "returning_guest.html",
+                "join_picnic.html",
                 invitation_code=invitation_code
             )
 
@@ -668,7 +668,7 @@ def returning_guest():
             )
 
             return render_template(
-                "returning_guest.html",
+                "join_picnic.html",
                 invitation_code=invitation_code
             )
 
@@ -682,4 +682,4 @@ def returning_guest():
             is_organizer=False
         )
 
-    return render_template("returning_guest.html")
+    return render_template("join_picnic.html")

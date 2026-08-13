@@ -12,7 +12,7 @@
 :root {
     --primary: #147E1A;
     --primary-light: #97C488;
-    --primary-light-50: rgb(151, 196, 136, 0.5);
+    --primary-light-50: #CBE1BB;
     --secondary: #E13329;
     --secondary-light: #F29E8F;
     --header-bg: #C9D0C6;
@@ -167,7 +167,7 @@ h1 {
     padding: 30px 0;
 }
 
-.form-grid form {
+.form {
     width: 350px;
     margin: 0 0 0 auto;
 
@@ -177,7 +177,7 @@ h1 {
     margin: 50px auto auto 60px;
 }
 
-.form-grid form input {
+.form input {
     width: 100%;
     padding: 8px;
     border-radius: var(--radius);
@@ -186,24 +186,24 @@ h1 {
     margin: 3px 0 15px;
 }
 
-.form-grid form input:-webkit-autofill,
-.form-grid form input:-webkit-autofill:hover,
-.form-grid form input:-webkit-autofill:focus {
+.form input:-webkit-autofill,
+.form input:-webkit-autofill:hover,
+.form input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 5px 0 var(--background-50) inset;
     -webkit-text-fill-color: var(--text);
     transition: background-color 5000s ease-in-out 0s;
 }
 
-.form-grid form input:focus {
+.form input:focus {
     outline: 1px solid var(--primary);
     outline-offset: -3px;
 }
 
-.form-grid form div:last-of-type input {
+.form div:last-of-type input {
     margin-bottom: 30px;
 }
 
-form .btn-small {
+.form .btn-small {
     margin: 0 0 0 auto;
     display: block;
 }
@@ -233,6 +233,12 @@ form .btn-small {
     .form-grid .div-special {
         margin: 0;
     }
+
+    .join-picnic-bg {
+        transform: scale(-1, -1);
+        position: relative;
+        left: -10px;
+    }
 }
 
 
@@ -245,14 +251,69 @@ form .btn-small {
     border-radius: var(--radius);
 }
 
-.form-grid .form-green input {
+.form-green input {
     background-color: var(--primary-light-50);
 }
 
-.form-grid .form-green input:-webkit-autofill,
-.form-grid .form-green input:-webkit-autofill:hover,
-.form-grid .form-green input:-webkit-autofill:focus {
+.form-green input:-webkit-autofill,
+.form-green input:-webkit-autofill:hover,
+.form-green input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 5px 0 var(--primary-light-50) inset;
     -webkit-text-fill-color: var(--text);
     transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ==== join_picnic page tabs show/hide ==== */
+.join-tabs {
+    display: flex;
+    transform: translate(-11px, -50%);
+    position: absolute;
+}
+
+.join-tab {
+    padding: 12px 20px;
+    border: 1px solid var(--text);
+    background-color: var(--primary-light-50);
+    border-radius: var(--radius) 0 0 0;
+
+    cursor: pointer;
+}
+
+.join-tab.active {
+    background-color: var(--background);
+}
+
+.join-form {
+    display: none;
+}
+
+.join-form.active {
+    margin-top: 60px;
+    display: block;
+}
+
+.join-box {
+    border: 1px solid var(--text);
+    border-radius: var(--radius);
+    position: relative;
+    margin-top: 50px;
+    padding: 0 0 0 10px;
+}
+
+.join-picnic-bg {
+    clip-path: inset(0 0 0 0 round 0 var(--radius) var(--radius) 0);
+    /* overflow: visible;
+    position: relative; */
+}
+
+.join-picnic-img {
+    min-height: 550px;
+    background-image: url(/static/images/join-picnic-img.png);
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+}
+
+.form-grid.form-grid--join {
+    padding: 0;
 }

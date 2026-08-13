@@ -1,30 +1,76 @@
 {% extends "base.html" %}
 {% block title %} Join picnic | Picnic App {% endblock %}
 {% block content %}
-<section>
+<section class="join">
     <div class="container">
         <h1>Join a picnic</h1>
 
-        <form method="post" action="{{ url_for('join_picnic') }}">
-            <p>
-                <label for="picnic-name">Picnic name</label>
-                <input type="text" id="picnic-name" name="picnic_name" value="{{ picnic_name or '' }}" required>
-            </p>
+        <div class="join-box">
 
-            <p>
-                <label for="invitation-code">Invitation code</label>
-                <input type="text" id="invitation-code" name="invitation_code" value="{{ invitation_code or '' }}"
-                    required>
-            </p>
+            <div class="join-tabs">
+                <button class="join-tab active" type="button" data-tab="first">
+                    First time joining
+                </button>
 
-            <p>
-                <label for="guest-name">Your name</label>
-                <input type="text" id="guest-name" name="guest_name" value="{{ guest_name or '' }}" maxlength="155"
-                    required>
-            </p>
+                <button class="join-tab" type="button" data-tab="returning">
+                    Returning
+                </button>
+            </div>
 
-            <button type="submit">Join picnic</button>
-        </form>
+            <div class="form-grid form-grid--join">
+
+                <!-- first time joining -->
+                <div class="join-form active" id="first">
+                    <form method="post" action="{{ url_for('join_picnic') }}" class="form form-green">
+                        <div>
+                            <label for="picnic-name">Picnic name</label>
+                            <input type="text" id="picnic-name" name="picnic_name" value="{{ picnic_name or '' }}"
+                                required>
+                        </div>
+
+                        <div>
+                            <label for="invitation-code">Invitation code</label>
+                            <input type="text" id="invitation-code" name="invitation_code"
+                                value="{{ invitation_code or '' }}" required>
+                        </div>
+
+                        <div>
+                            <label for="guest-name">Your name</label>
+                            <input type="text" id="guest-name" name="guest_name" value="{{ guest_name or '' }}"
+                                maxlength="155" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-small btn-small-shadow">Join picnic</button>
+                    </form>
+                </div>
+
+
+                <!-- returning -->
+                <div class="join-form" id="returning">
+                    <form method="post" action="{{ url_for('returning_guest') }}" class="form form-green">
+                        <div>
+                            <label for="invitation-code">Invitation code</label>
+                            <input type="text" id="invitation-code" name="invitation_code"
+                                value="{{ invitation_code or '' }}" required>
+                        </div>
+
+                        <div>
+                            <label for="guest-pin">Guest PIN</label>
+                            <input type="password" id="guest-pin" name="guest_pin" inputmode="numeric" minlength="6"
+                                maxlength="6" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-small btn-small-shadow">Access picnic</button>
+                    </form>
+                </div>
+
+                <div class="join-picnic-bg">
+                    <div class="join-picnic-img"></div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </section>
 
