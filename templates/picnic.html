@@ -5,91 +5,200 @@
 {% endblock %}
 
 {% block content %}
-<section>
+
+<section class="picnic-page">
     <div class="container">
 
         <h1>{{ picnic.picnic_name }}</h1>
 
-        <p>Welcome, {{ current_user.name or guest.name }}</p>
-        <p>{{ picnic.date }}</p>
-        <p>{{ picnic.location }}</p>
-        {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
-        <a href="{{ url_for('edit_picnic', picnic_id=picnic.id) }}">Edit</a>
-        {% endif %}
-    </div>
-</section>
+        <div class="picnic-welcome">
+            <p>Hi, {{ current_user.name or guest.name }} </p>
+            <!-- Guest pin display for a guest -->
+            {% if guest %}
+            <div>
+                <span>Your Pin:</span>
+                <strong>{{ guest.pin }}</strong>
+            </div>
+            {% endif %}
+        </div>
 
-<section>
-    <div class="container">
-        <div class="categories-flex">
 
-            {% for category in picnic.selected_categories %}
-            <div class="category">
+        <!-- info -->
+        <div class="picnic-info-grid">
 
-                <h2>{{ category.value }}</h2>
+            <!-- participants -->
+            <div class="picnic-participants">
+                <h4>participants</h4>
 
-                {% set items = picnic.get_items_by_category(category) %}
+                <div class="organizer">
+                    <span>Organizer:</span>
+                    {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
+                    <strong>You</strong>
+                    {% else %}
+                    <strong>{{ picnic.user.name }}</strong>
+                    {% endif %}
+                </div>
 
-                {% if items %}
-                <ul>
-                    {% for item in items %}
-                    <li>
-                        {{ item.name }}
-
-                        {% if item.is_claimed %}
-                        {% if item.claimed_by_user %} — {{ item.claimed_by_user.name }}
-                        {% elif item.claimed_by_guest %} — {{ item.claimed_by_guest.name }}
-                        {% endif %}
-
-                        {% if current_user.is_authenticated and item.claimed_by_user_id == current_user.id %}
-                        <form action="{{ url_for('drop_item', item_id=item.id) }}" method="POST">
-                            <button type="submit">Drop</button>
-                        </form>
-
-                        {% elif guest and item.claimed_by_guest_id == guest.id %}
-                        <form action="{{ url_for('drop_item', item_id=item.id) }}" method="POST">
-                            <button type="submit">Drop</button>
-                        </form>
-                        {% endif %}
-
-                        {% else %}
-                        <form action="{{ url_for('grab_item', item_id=item.id) }}" method="POST">
-                            <button type="submit">Grab</button>
-                        </form>
-                        {% endif %}
-
-                        {% if not item.is_claimed %}
-                        <a href="{{ url_for('edit_item', item_id=item.id) }}">Edit</a>
-                        <form action="{{ url_for('delete_item', item_id=item.id) }}" method="POST">
-                            <button type="submit">Delete</button>
-                        </form>
-
-                        {% elif
-                        (current_user.is_authenticated and item.claimed_by_user_id == current_user.id)
-                        or (guest and item.claimed_by_guest_id == guest.id) %}
-                        <a href="{{ url_for('edit_item', item_id=item.id) }}">Edit</a>
-
-                        {% endif %}
-                    </li>
+                <div class="guest-list">
+                    {% for picnic_guest in picnic.guests %}
+                    <span>{{ picnic_guest.name }}</span>
                     {% endfor %}
-                </ul>
-                {% else %}
-                <p>No items in this category yet.</p>
-                {% endif %}
-
-                <form action="{{ url_for('add_item', picnic_id=picnic.id) }}" method="POST">
-                    <input type="text" name="item_name" placeholder="Add an item" required>
-
-                    <input type="hidden" name="category" value="{{ category.name }}">
-
-                    <button type="submit">Add item</button>
-                </form>
+                </div>
 
             </div>
 
+            <!-- picnic details -->
+            <div class="picnic-details">
+
+                <div class="detail-row">
+                    <span>Location:</span>
+                    <strong>{{ picnic.location }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Date:</span>
+                    <strong>{{ picnic.date }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Guests joined:</span>
+                    <strong>{{ picnic.guests|length }}</strong>
+                </div>
+
+                {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
+                <a href="{{ url_for('edit_picnic', picnic_id=picnic.id) }}" class="picnic-edit">
+                    Edit picnic
+                </a>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Categories -->
+        <div class="categories-grid">
+
+            {% for category in picnic.selected_categories %}
+            <article class="category">
+                <h2>{{ category.value }}</h2>
+
+                {% set items = picnic.get_items_by_category(category) %}
+                <div class="category-items">
+
+                    {% if items %} <!-- start of `if items` condition -->
+                    {% for item in items %} <!-- start of items loop -->
+
+                    <div class="item-row">
+
+                        <!-- item name -->
+                        <div class="item-cell item-name">
+                            {{ item.name }}
+                        </div>
+
+                        <!-- claimant name -->
+                        <div class="item-cell item-claimant">
+
+                            {% if item.is_claimed %}
+
+                            {% if item.claimed_by_user %}
+                            <!-- show 'you' if claimant is the current user -->
+                            {% if current_user.is_authenticated and item.claimed_by_user_id == current_user.id %}
+                            <strong class="you">You</strong>
+                            {% else %}
+                            <strong>{{ item.claimed_by_user.name }}</strong>
+                            {% endif %}
+
+                            {% elif item.claimed_by_guest %}
+                            <!-- show 'you' if claimant is the current guest -->
+                            {% if guest and item.claimed_by_guest_id == guest.id %}
+                            <strong class="you">You</strong>
+                            {% else %}
+                            <strong>{{ item.claimed_by_guest.name }}</strong>
+                            {% endif %}
+                            {% endif %}
+
+                            {% endif %}
+
+                        </div>
+
+                        <!-- GRAB / DROP -->
+                        <div class="item-cell item-action">
+
+                            {% if item.is_claimed %}
+
+                            {% if current_user.is_authenticated and item.claimed_by_user_id == current_user.id %}
+                            <form action="{{ url_for('drop_item', item_id=item.id) }}" method="POST">
+                                <button type="submit">Drop</button>
+                            </form>
+
+                            {% elif guest and item.claimed_by_guest_id == guest.id %}
+                            <form action="{{ url_for('drop_item', item_id=item.id) }}" method="POST">
+                                <button type="submit">Drop</button>
+                            </form>
+
+                            {% else %}
+                            <span class="disabled-action">Drop</span>
+                            {% endif %}
+
+                            {% else %}
+
+                            <form action="{{ url_for('grab_item', item_id=item.id) }}" method="POST">
+                                <button type="submit" class="grab">Grab</button>
+                            </form>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="item-cell item-secondary-actions">
+
+                            <!-- optional edit / delete -->
+                            {% if not item.is_claimed %} <!-- start of `item not-claimed` condition -->
+                            <a href="{{ url_for('edit_item', item_id=item.id) }}">Edit</a>
+                            <form action="{{ url_for('delete_item', item_id=item.id) }}" method="POST">
+                                <button type="submit">Delete</button>
+                            </form>
+
+                            {% elif
+                            (current_user.is_authenticated and item.claimed_by_user_id == current_user.id)
+                            or
+                            (guest and item.claimed_by_guest_id == guest.id)
+                            %}
+                            <a href="{{ url_for('edit_item', item_id=item.id) }}">Edit</a>
+
+                            {% endif %} <!-- end of `item not-claimed` condition -->
+                        </div>
+
+                    </div>
+
+                    {% endfor %} <!-- end of items loop -->
+
+                    {% else %}
+                    <p class="category-empty">No items in this category yet.</p>
+
+                    {% endif %} <!-- end of `if items` condition -->
+
+                </div>
+
+
+                <!-- add item -->
+                <form action="{{ url_for('add_item', picnic_id=picnic.id) }}" method="POST" class="add-item-form">
+
+                    <input type="text" name="item_name" placeholder="Add an item" required>
+                    <input type="hidden" name="category" value="{{ category.name }}">
+                    <button type="submit">
+                        Add item <img src="/static/images/plus.svg" alt="Add items to {{ category.value }}">
+                    </button>
+
+                </form>
+
+            </article>
+
             {% endfor %}
+
         </div>
 
     </div>
 </section>
+
 {% endblock %}

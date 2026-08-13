@@ -20,6 +20,8 @@
     --background: #FEFADF;
     --background-50: rgb(254, 250, 223, 0.6);
     --text: #003103;
+    --text-60: #00310396;
+    --text-40: #00310366;
     --radius: 10px;
 }
 
@@ -84,7 +86,7 @@ h1 {
 
 h2 {
     font-size: 30px;
-    font-weight: 900;
+    font-weight: 800;
     margin-bottom: 20px;
 }
 
@@ -258,21 +260,26 @@ h3 {
 /* ==== join_picnic page tabs show/hide ==== */
 .join-tabs {
     display: flex;
-    transform: translate(-11px, -50%);
+    transform: translate(-11px, -80%);
     position: absolute;
 }
 
 .join-tab {
     padding: 12px 20px;
-    border: 1px solid var(--text);
+    color: var(--text-60);
+    border: 1px solid var(--header-bg);
     background-color: var(--primary-light-50);
-    border-radius: var(--radius) 0 0 0;
+    border-radius: var(--radius) 2px 0 0;
 
     cursor: pointer;
 }
 
 .join-tab.active {
     background-color: var(--background);
+    color: var(--text);
+    font-weight: 600;
+    border-color: var(--text);
+    border-bottom: none;
 }
 
 .join-form {
@@ -310,7 +317,7 @@ h3 {
     padding: 0;
 }
 
-/* picnics page style */
+/* ===== picnics page style ====== */
 .intro {
     margin-bottom: 60px;
 }
@@ -338,12 +345,6 @@ h3 {
     /* height: 120px; */
     transition: 0.3s;
 }
-
-.picnic-card:hover {
-    /* box-shadow: none; */
-}
-
-.picnic-card-img {}
 
 .picnic-card-content {
     margin-top: 120px;
@@ -428,4 +429,246 @@ h3 {
     .picnics-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* ====== picnic page ==== */
+.picnic-page {
+    padding: 45px 0 80px;
+}
+
+.picnic-welcome {
+    margin-bottom: 50px;
+}
+
+.picnic-welcome p {
+    margin-bottom: 10px;
+}
+
+.picnic-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+
+    margin-bottom: 60px;
+}
+
+.picnic-participants h4 {
+    background-color: var(--primary-light-50);
+    border: 1px solid var(--text-60);
+    color: var(--text-60);
+    border-radius: var(--radius);
+    padding: 2px 10px 3px;
+    position: absolute;
+    left: 10%;
+    top: 0;
+    transform: translateY(-50%);
+}
+
+.picnic-participants,
+.picnic-details {
+    min-height: 180px;
+    padding: 45px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* guests card */
+.picnic-participants {
+    position: relative;
+    background-color: var(--primary-light-50);
+    border-radius: 55px;
+}
+
+.organizer {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 18px;
+}
+
+.organizer span,
+.organizer strong {
+    color: var(--primary);
+}
+
+.guest-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+
+    font-weight: 500;
+}
+
+/* details card */
+
+.picnic-details {
+    border: 1px solid var(--text);
+    border-radius: 55px;
+}
+
+.detail-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 15px;
+
+    margin-bottom: 10px;
+}
+
+.picnic-edit {
+    margin-top: 15px;
+    align-self: flex-start;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+
+/* --- category grid ------ */
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 75px 45px;
+}
+
+.category-items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.5fr 0.8fr;
+    gap: 4px;
+}
+
+.item-cell {
+    min-height: 35px;
+    padding: 8px 12px;
+    background-color: var(--primary-light-50);
+    display: flex;
+    align-items: center;
+}
+
+.item-claimant {
+    font-size: 14px;
+}
+
+.item-claimant .you {
+    /* color: var(--primary); */
+    background-color: var(--primary-light);
+    border-radius: 4px;
+    padding: 0 10px;
+}
+
+.item-action {
+    padding: 0;
+}
+
+.item-action form {
+    width: 100%;
+    height: 100%;
+}
+
+.item-action button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    font: inherit;
+    /* color: var(--primary); */
+    cursor: pointer;
+}
+
+.item-action button.grab {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.item-action button:hover {
+    background-color: var(--primary-light);
+}
+
+.disabled-action {
+    width: 100%;
+    padding: 8px 12px;
+    color: var(--text-40);
+    text-align: center;
+}
+
+
+/* -----  actions ----- */
+
+.item-secondary-actions {
+    display: flex;
+    gap: 20px;
+    padding: 5px auto;
+    /* font-size: 14px; */
+}
+
+.item-secondary-actions a,
+.item-secondary-actions button {
+    border: 0;
+    background: none;
+    padding: 0;
+    font: inherit;
+    color: var(--text);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.item-secondary-actions button {
+    color: var(--text-60);
+}
+
+.item-secondary-actions a:hover {
+    color: var(--primary);
+}
+
+.item-secondary-actions button:hover {
+    color: var(--secondary-light)
+}
+
+
+
+/* ------- add item --------- */
+
+.add-item-form {
+    display: grid;
+    grid-template-columns: 2.55fr 0.8fr;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.add-item-form input {
+    padding: 8px 12px;
+    border: none;
+    background-color: var(--header-bg);
+    font: inherit;
+}
+
+.add-item-form button {
+    border: none;
+    background-color: var(--primary-light-50);
+    font: inherit;
+    cursor: pointer;
+}
+
+.add-item-form button img {
+    transform: translateY(3px);
+}
+
+.add-item-form button:hover {
+    background-color: var(--primary-light);
+}
+
+
+/* ------- empty cat ------ */
+
+.category-empty {
+    padding: 12px;
+    background-color: var(--primary-light-50);
+    margin: 0;
 }
