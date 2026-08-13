@@ -2,33 +2,47 @@
 {% block content %}
 <section>
     <div class="container">
+        <div class="intro">
+            <h2>Welcome, {{ current_user.name }}</h2>
 
-        <h1>Welcome, {{ current_user.name }}</h1>
+            <p>Browse your picnics or create a new one.</p>
+            <a class="btn btn-small btn-small-shadow" href="{{ url_for('create_picnic') }}">
+                Create a picnic
+            </a>
+        </div>
 
-        <p>Browse your picnics or create a new one.</p>
-        <a class="btn btn-small btn-small-shadow" href="{{ url_for('create_picnic') }}">
-            Create a picnic
-        </a>
         <div>
-            <!-- Check if the user has books -->
+            <!-- Check if the user has picnics -->
             {% if picnics|length == 0 %}
             <p>There are no picnics yet.</p>
             {% else %}
             <!-- display picnic if there are picnics -->
-            <h2>Your picnics:</h2>
-            {% for picnic in picnics %}
+            <h1>Your picnics:</h1>
+            <div class="picnics-grid">
 
-            <h3>{{ picnic.picnic_name }}</h3>
-            <p>{{ picnic.date }}</p>
-            <p>{{ picnic.location }}</p>
-            <div>
-                <a href="{{ url_for('picnic', picnic_id=picnic.id) }}">View</a>
-                <form action="{{ url_for('delete_picnic', picnic_id=picnic.id) }}" method="POST">
-                    <button type="submit">Delete</button>
-                </form>
+                {% for picnic in picnics %}
+                <div class="picnic-card">
+                    <div class="picnic-card-img"></div>
+                    <div class="picnic-card-content">
+                        <h3>{{ picnic.picnic_name }}</h3>
+                        <p><span>Date: </span>{{ picnic.date }}</p>
+                        <p><span>Location: </span>{{ picnic.location }}</p>
+                        <div class="picnic-card-actions">
+                            <a href="{{ url_for('picnic', picnic_id=picnic.id) }}" class="picnic-action">View</a>
+                            <form action="{{ url_for('delete_picnic', picnic_id=picnic.id) }}" method="POST"
+                                class="picnic-action picnic-action-delete">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                {% endfor %}
             </div>
 
-            {% endfor %}
             {% endif %}
         </div>
 
