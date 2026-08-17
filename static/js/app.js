@@ -1,6 +1,7 @@
 console.log("script loaded");
 const tabs = document.querySelectorAll(".join-tab");
 const forms = document.querySelectorAll(".join-form");
+const closeBtn = document.getElementById("close-btn");
 
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
@@ -17,4 +18,9 @@ tabs.forEach((tab) => {
     tab.classList.add("active");
     document.getElementById(formType).classList.add("active");
   });
+});
+
+closeBtn.addEventListener("click", () => {
+  const feedback = document.querySelector(".flash-messages");
+  feedback.remove();
 });

@@ -41,6 +41,7 @@ section {
 
 .feedback {
     position: absolute;
+    z-index: 100;
     background-color: var(--background);
     top: 70px;
     left: 50%;
@@ -718,4 +719,11 @@ input[type="checkbox"]:checked::after {
     justify-content: end;
 }
 
-select {}
+#close-btn {
+    background: none;
+    border: none;
+    font-size: 26px;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
