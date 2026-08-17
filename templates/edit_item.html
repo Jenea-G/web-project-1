@@ -4,29 +4,39 @@
     <div class="container">
         <h1>Edit item</h1>
 
-        <form action="{{ url_for('edit_item', item_id=item.id) }}" method="POST">
-            <label>
-                Item name
-                <input type="text" name="item_name" value="{{ item.name }}">
-            </label>
+        <form action="{{ url_for('edit_item', item_id=item.id) }}" method="POST" class="form form-green">
+            <div class="form-grid">
+                <div>
+                    <label>
+                        Item name
+                        <input type="text" name="item_name" value="{{ item.name }}">
+                    </label>
+                    <label>
+                        Category
+                        <select name="category">
+                            {% for category in picnic.selected_categories %}
+                            <option value="{{ category.name }}" {% if category==item.category %}selected{% endif %}>
+                                {{ category.value }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </label>
 
-            <label>
-                Category
-                <select name="category">
-                    {% for category in picnic.selected_categories %}
-                    <option value="{{ category.name }}" {% if category==item.category %}selected{% endif %}>
-                        {{ category.value }}
-                    </option>
-                    {% endfor %}
-                </select>
-            </label>
 
-            <button type="submit">Save</button>
+                    <div class="form-actions">
+                        <a href="{{ url_for('picnic', picnic_id=picnic.id) }}"
+                            class="btn btn-small btn-small--grey">Cancel</a>
+                        <button type="submit" class="btn btn-small btn-small--green">Save</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+
         </form>
 
-        <a href="{{ url_for('picnic', picnic_id=picnic.id) }}">
-            Cancel
-        </a>
+
     </div>
 </section>
 {% endblock %}

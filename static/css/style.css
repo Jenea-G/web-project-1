@@ -138,16 +138,29 @@ h3 {
     min-width: 150px;
     border: 1px solid var(--primary-light);
     background-color: var(--primary);
+}
+
+.btn-small--light {
     box-shadow: -8px 8px 0 0 var(--background-50);
 }
 
-.btn-small-shadow {
+.btn-small--green {
     box-shadow: -8px 8px 0 0 var(--primary-light);
+}
+
+.btn-small--grey {
+    border: 1px solid var(--text-40);
+    background-color: var(--header-bg);
+    box-shadow: -8px 8px 0 0 var(--header-bg);
 }
 
 .btn:hover {
     box-shadow: none;
     color: var(--primary-light);
+}
+
+.btn-small--grey:hover {
+    color: var(--text-60);
 }
 
 .btn-secondary {
@@ -192,7 +205,8 @@ h3 {
     margin: 50px auto auto 60px;
 }
 
-.form input:not([type="checkbox"]) {
+.form input:not([type="checkbox"]),
+.form select {
     width: 100%;
     padding: 8px;
     border-radius: var(--radius);
@@ -209,19 +223,10 @@ h3 {
     transition: background-color 5000s ease-in-out 0s;
 }
 
-.form input:not([type="checkbox"]):focus {
+.form input:not([type="checkbox"]):focus,
+.form select:focus {
     outline: 1px solid var(--primary);
     outline-offset: -3px;
-}
-
-/* beofre submit button spacing */
-/* .form div:last-of-type input {
-    margin-bottom: 30px;
-} */
-
-.form .btn-small {
-    margin: 30px 0 0 auto;
-    display: block;
 }
 
 .p-special a {
@@ -247,13 +252,17 @@ h3 {
     border-radius: var(--radius);
 }
 
-.form-green input:not([type="checkbox"]) {
+.form-green input:not([type="checkbox"]),
+.form-green select {
     background-color: var(--primary-light-50);
 }
 
 .form-green input:not([type="checkbox"]):-webkit-autofill,
 .form-green input:not([type="checkbox"]):-webkit-autofill:hover,
-.form-green input:not([type="checkbox"]):-webkit-autofill:focus {
+.form-green input:not([type="checkbox"]):-webkit-autofill:focus,
+.form-green select:-webkit-autofill,
+.form-green select:-webkit-autofill:hover,
+.form-green select:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 5px 0 var(--primary-light-50) inset;
     -webkit-text-fill-color: var(--text);
     transition: background-color 5000s ease-in-out 0s;
@@ -303,8 +312,6 @@ h3 {
 
 .join-picnic-bg {
     clip-path: inset(0 0 0 0 round 0 var(--radius) var(--radius) 0);
-    /* overflow: visible;
-    position: relative; */
 }
 
 .join-picnic-img {
@@ -344,14 +351,12 @@ h3 {
     background-size: cover;
     background-position: center;
     box-shadow: -8px 8px 0 0 var(--primary-light);
-    /* height: 120px; */
     transition: 0.3s;
 }
 
 .picnic-card-content {
     margin-top: 120px;
     padding: 20px;
-    /* background-image: url(/static/images/picnic-img.jpg); */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -399,8 +404,6 @@ h3 {
 }
 
 .picnic-action:hover {
-    /* opacity: 0.6; */
-    /* scale: 1.04; */
     transform: translate(1px, -1px);
     color: var(--primary);
 }
@@ -450,7 +453,6 @@ h3 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
-
     margin-bottom: 60px;
 }
 
@@ -503,7 +505,6 @@ h3 {
 }
 
 /* details card */
-
 .picnic-details {
     border: 1px solid var(--text);
     border-radius: 55px;
@@ -526,7 +527,6 @@ h3 {
 
 
 /* --- category grid ------ */
-
 .categories-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -559,7 +559,6 @@ h3 {
 }
 
 .item-claimant .you {
-    /* color: var(--primary); */
     background-color: var(--primary-light);
     border-radius: 4px;
     padding: 0 10px;
@@ -580,7 +579,6 @@ h3 {
     border: none;
     background: transparent;
     font: inherit;
-    /* color: var(--primary); */
     cursor: pointer;
 }
 
@@ -602,12 +600,10 @@ h3 {
 
 
 /* -----  actions ----- */
-
 .item-secondary-actions {
     display: flex;
     gap: 20px;
     padding: 5px auto;
-    /* font-size: 14px; */
 }
 
 .item-secondary-actions a,
@@ -633,10 +629,7 @@ h3 {
     color: var(--secondary-light)
 }
 
-
-
 /* ------- add item --------- */
-
 .add-item-form {
     display: grid;
     grid-template-columns: 2.55fr 0.8fr;
@@ -668,7 +661,6 @@ h3 {
 
 
 /* ------- empty cat ------ */
-
 .category-empty {
     padding: 12px;
     background-color: var(--primary-light-50);
@@ -718,3 +710,12 @@ input[type="checkbox"]:checked::after {
     left: 3px;
     top: 0;
 }
+
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+}
+
+select {}

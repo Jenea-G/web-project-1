@@ -39,8 +39,10 @@
                             <input type="text" id="guest-name" name="guest_name" value="{{ guest_name or '' }}"
                                 maxlength="155" required>
                         </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-small btn-small--green">Join picnic</button>
+                        </div>
 
-                        <button type="submit" class="btn btn-small btn-small-shadow">Join picnic</button>
                     </form>
                 </div>
 
@@ -59,8 +61,9 @@
                             <input type="password" id="guest-pin" name="guest_pin" inputmode="numeric" minlength="6"
                                 maxlength="6" required>
                         </div>
-
-                        <button type="submit" class="btn btn-small btn-small-shadow">Access picnic</button>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-small btn-small--green">Access picnic</button>
+                        </div>
                     </form>
                 </div>
 
