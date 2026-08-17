@@ -409,34 +409,6 @@ h3 {
     color: var(--primary);
 }
 
-
-@media (max-width: 768px) {
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(1, 350px);
-        grid-gap: 50px;
-        justify-content: center;
-    }
-
-    .form-grid .div-special {
-        margin: 0;
-    }
-
-    .join-picnic-bg {
-        transform: scale(-1, -1);
-        position: relative;
-        left: -10px;
-    }
-
-
-}
-
-@media (max-width: 1000px) {
-    .picnics-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 /* ====== picnic page ==== */
 .picnic-page {
     padding: 45px 0 80px;
@@ -450,10 +422,11 @@ h3 {
     margin-bottom: 10px;
 }
 
-.picnic-info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
+.picnic-info-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 50px;
     margin-bottom: 60px;
 }
 
@@ -471,6 +444,7 @@ h3 {
 
 .picnic-participants,
 .picnic-details {
+    flex: 1;
     min-height: 180px;
     padding: 45px;
 
@@ -532,24 +506,25 @@ h3 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 
-    gap: 75px 45px;
+    gap: 70px 35px;
 }
 
 .category-items {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
 }
 
 .item-row {
     display: grid;
     grid-template-columns: 1fr 1fr 0.5fr 0.8fr;
-    gap: 4px;
+    gap: 3px;
 }
 
 .item-cell {
     min-height: 35px;
     padding: 8px 12px;
+    border-radius: 3px;
     background-color: var(--primary-light-50);
     display: flex;
     align-items: center;
@@ -594,16 +569,15 @@ h3 {
 
 .disabled-action {
     width: 100%;
-    padding: 8px 12px;
+    padding: 0;
     color: var(--text-40);
     text-align: center;
 }
 
-
 /* -----  actions ----- */
 .item-secondary-actions {
     display: flex;
-    gap: 20px;
+    gap: 8px;
     padding: 5px auto;
 }
 
@@ -634,19 +608,21 @@ h3 {
 .add-item-form {
     display: grid;
     grid-template-columns: 2.55fr 0.8fr;
-    gap: 4px;
-    margin-top: 4px;
+    gap: 3px;
+    margin-top: 5px;
 }
 
 .add-item-form input {
     padding: 8px 12px;
     border: none;
+    border-radius: var(--radius);
     background-color: var(--header-bg);
     font: inherit;
 }
 
 .add-item-form button {
     border: none;
+    border-radius: var(--radius);
     background-color: var(--primary-light-50);
     font: inherit;
     cursor: pointer;
@@ -663,7 +639,8 @@ h3 {
 
 /* ------- empty cat ------ */
 .category-empty {
-    padding: 12px;
+    min-height: 35px;
+    padding: 8px 12px;
     background-color: var(--primary-light-50);
     margin: 0;
 }
@@ -730,4 +707,124 @@ input[type="checkbox"]:checked::after {
 
 .error {
     color: var(--secondary);
+}
+
+@media (max-width: 1200px) {
+
+    /* picninc page */
+    .picnic-info-flex {
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    .categories-grid {
+        gap: 60px 20px;
+    }
+
+    .picnic-participants,
+    .picnic-details {
+        border-radius: 50px;
+        padding: 30px;
+    }
+
+    .item-cell {
+        padding: 8px 10px;
+    }
+
+    .item-row {
+        grid-template-columns: 1fr 0.9fr 0.5fr 0.9fr;
+    }
+
+    .add-item-form {
+        display: grid;
+        grid-template-columns: 2.45fr 0.9fr;
+    }
+}
+
+@media (max-width: 1000px) {
+    h2 {
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+
+    .picnics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* picninc page */
+    .picnic-info-flex {
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .categories-grid {
+        gap: 40px 15px;
+    }
+
+    .picnic-participants,
+    .picnic-details {
+        border-radius: 40px;
+        padding: 20px;
+        font-size: 14px;
+    }
+
+    .item-cell {
+        padding: 6px 8px;
+        font-size: 14px;
+    }
+
+    .category-empty {
+        padding: 6px 12px;
+    }
+
+    .add-item-form {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .add-item-form input {
+        padding: 6px 8px;
+        font-size: 14px;
+    }
+
+    .add-item-form button {
+        font-size: 14px;
+    }
+
+    .add-item-form button img {
+        transform: translateY(5px);
+        scale: 0.8;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 350px);
+        grid-gap: 50px;
+        justify-content: center;
+    }
+
+    .form-grid .div-special {
+        margin: 0;
+    }
+
+    .join-picnic-bg {
+        transform: scale(-1, -1);
+        position: relative;
+        left: -10px;
+    }
+
+    /* picninc page */
+    .picnic-info-flex {
+        flex-direction: column-reverse;
+        gap: 30px;
+    }
+
+    .categories-grid {
+        grid-template-columns: 1fr;
+        grid-gap: 30px;
+    }
+
+
+
 }
