@@ -727,3 +727,7 @@ input[type="checkbox"]:checked::after {
     top: 15px;
     right: 20px;
 }
+
+.error {
+    color: var(--secondary);
+}
