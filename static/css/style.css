@@ -214,12 +214,13 @@ h3 {
     outline-offset: -3px;
 }
 
-.form div:last-of-type input {
+/* beofre submit button spacing */
+/* .form div:last-of-type input {
     margin-bottom: 30px;
-}
+} */
 
 .form .btn-small {
-    margin: 0 0 0 auto;
+    margin: 30px 0 0 auto;
     display: block;
 }
 
@@ -685,12 +686,35 @@ fieldset {
     border-radius: var(--radius);
 }
 
+fieldset div {
+    margin-bottom: 15px;
+}
+
 input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+
     width: 25px;
     height: 25px;
-    border: 3px solid var(--primary);
-    border-radius: 10px !important;
+    border: 1px solid var(--text-60);
+    border-radius: 5px;
     background-color: var(--background-50);
-    margin-left: 10px;
+    margin-left: 15px;
     transform: translateY(6px);
+    cursor: pointer;
+}
+
+/* Checked state */
+input[type="checkbox"]:checked {
+    background-color: var(--primary-light);
+    position: relative;
+}
+
+input[type="checkbox"]:checked::after {
+    content: "✔";
+    color: var(--background);
+    font-size: 18px;
+    position: absolute;
+    left: 3px;
+    top: 0;
 }
