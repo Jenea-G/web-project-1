@@ -797,10 +797,14 @@ input[type="checkbox"]:checked::after {
 }
 
 @media (max-width: 768px) {
+    h1 {
+        margin-bottom: 20px;
+    }
+
     .form-grid {
         display: grid;
         grid-template-columns: repeat(1, 350px);
-        grid-gap: 50px;
+        grid-gap: 40px;
         justify-content: center;
     }
 
