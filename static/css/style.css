@@ -614,10 +614,15 @@ h3 {
 
 .add-item-form input {
     padding: 8px 12px;
-    border: none;
+    border: 1px solid var(--header-bg);
     border-radius: var(--radius);
-    background-color: var(--header-bg);
+    background-color: var(--background-50);
     font: inherit;
+}
+
+.add-item-form input:focus-visible {
+    outline: 1px solid var(--primary);
+    outline-offset: -3px;
 }
 
 .add-item-form button {
@@ -641,7 +646,7 @@ h3 {
 .category-empty {
     min-height: 35px;
     padding: 8px 12px;
-    background-color: var(--primary-light-50);
+    background-color: var(--secondary-light-50);
     margin: 0;
 }
 

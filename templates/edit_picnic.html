@@ -36,60 +36,22 @@
                     <fieldset>
                         <legend class="p-special">Item categories</legend>
 
+                        <!-- Checked categories are selected for the picnic; used categories already contain items. -->
+                        {% for category in ItemCategory %}
                         <div>
                             <label>
-                                <input type="checkbox" name="categories" value="Food" {% if ItemCategory.FOOD in
-                                    picnic.selected_categories %}checked{% endif %} {% if ItemCategory.FOOD.value in
+                                <input type="checkbox" name="categories" value="{{ category.value }}" {% if category in
+                                    picnic.selected_categories %}checked{% endif %} {% if category.value in
                                     used_categories %}disabled{% endif %}>
-                                Food
+
+                                {{ category.value }}
+
+                                {% if category.value in used_categories %}
+                                <input type="hidden" name="categories" value="{{ category.value }}">
+                                {% endif %}
                             </label>
                         </div>
-
-                        <div>
-                            <label>
-                                <input type="checkbox" name="categories" value="Drinks" {% if ItemCategory.DRINKS in
-                                    picnic.selected_categories %} checked{% endif %} {% if ItemCategory.DRINKS.value in
-                                    used_categories %} disabled{% endif %}>
-                                Drinks
-                            </label>
-                        </div>
-
-                        <div>
-                            <label>
-                                <input type="checkbox" name="categories" value="Equipment" {% if ItemCategory.EQUIPMENT
-                                    in picnic.selected_categories %} checked{% endif %} {% if
-                                    ItemCategory.EQUIPMENT.value in used_categories %} disabled{% endif %}>
-                                Equipment
-                            </label>
-
-                        </div>
-
-                        <div>
-                            <label>
-                                <input type="checkbox" name="categories" value="Desserts" {% if ItemCategory.DESSERTS in
-                                    picnic.selected_categories %} checked{% endif %} {% if ItemCategory.DESSERTS.value
-                                    in used_categories %} disabled{% endif %}>
-                                Desserts
-                            </label>
-                        </div>
-
-                        <div>
-                            <label>
-                                <input type="checkbox" name="categories" value="Entertainment" {% if
-                                    ItemCategory.ENTERTAINMENT in picnic.selected_categories %} checked{% endif %} {% if
-                                    ItemCategory.ENTERTAINMENT.value in used_categories %} disabled{% endif %}>
-                                Entertainment
-                            </label>
-                        </div>
-
-                        <div>
-                            <label>
-                                <input type="checkbox" name="categories" value="Snacks" {% if ItemCategory.SNACKS in
-                                    picnic.selected_categories %} checked{% endif %} {% if ItemCategory.SNACKS.value in
-                                    used_categories %} disabled{% endif %}>
-                                Snacks
-                            </label>
-                        </div>
+                        {% endfor %}
 
                     </fieldset>
                 </div>
