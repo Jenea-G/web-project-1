@@ -31,7 +31,13 @@
                             <a href="{{ url_for('picnic', picnic_id=picnic.id) }}" class="picnic-action">View</a>
                             <form action="{{ url_for('delete_picnic', picnic_id=picnic.id) }}" method="POST"
                                 class="picnic-action picnic-action-delete">
-                                <button type="submit">Delete</button>
+
+                                <button type="submit" class="delete-picnic-btn"
+                                    data-picnic-name="{{ picnic.picnic_name }}"
+                                    data-delete-url="{{ url_for('delete_picnic', picnic_id=picnic.id) }}">
+                                    Delete
+                                </button>
+
                             </form>
                         </div>
                     </div>
