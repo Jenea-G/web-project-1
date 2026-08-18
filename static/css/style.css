@@ -689,6 +689,12 @@ input[type="checkbox"]:checked::after {
     top: 0;
 }
 
+/* Disabled state */
+input[type="checkbox"]:disabled {
+    background-color: var(--header-bg);
+    cursor: auto;
+}
+
 .form-actions {
     margin-top: 30px;
     display: flex;

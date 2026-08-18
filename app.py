@@ -216,6 +216,12 @@ def create_picnic():
 def edit_picnic(picnic_id):
     picnic = Picnic.query.get_or_404(picnic_id)
 
+    # create a set of used categories to avoid removing them as they have items inside (& sending them to the template)
+    used_categories = set()
+    for item in picnic.items:
+        category = item.category.value
+        used_categories.add(category)
+
     # Only the organizer can edit this picnic
     if picnic.user_id != current_user.id:
         flash("You cannot edit this picnic.", "error")
@@ -248,7 +254,7 @@ def edit_picnic(picnic_id):
             for error in errors:
                 flash(error, "error")
 
-            return render_template("edit_picnic.html",picnic=picnic,ItemCategory=ItemCategory)
+            return render_template("edit_picnic.html",picnic=picnic,ItemCategory=ItemCategory, used_categories=used_categories)
 
         picnic.picnic_name = picnic_name
         picnic.invitation_code = invitation_code
@@ -262,7 +268,7 @@ def edit_picnic(picnic_id):
 
         return redirect(url_for("picnic", picnic_id=picnic.id))
 
-    return render_template("edit_picnic.html",picnic=picnic,ItemCategory=ItemCategory)
+    return render_template("edit_picnic.html",picnic=picnic,ItemCategory=ItemCategory, used_categories=used_categories)
 
 # picnic
 @app.route("/picnic/<int:picnic_id>")

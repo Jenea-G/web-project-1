@@ -39,7 +39,8 @@
                         <div>
                             <label>
                                 <input type="checkbox" name="categories" value="Food" {% if ItemCategory.FOOD in
-                                    picnic.selected_categories %}checked{% endif %}>
+                                    picnic.selected_categories %}checked{% endif %} {% if ItemCategory.FOOD.value in
+                                    used_categories %}disabled{% endif %}>
                                 Food
                             </label>
                         </div>
@@ -47,7 +48,8 @@
                         <div>
                             <label>
                                 <input type="checkbox" name="categories" value="Drinks" {% if ItemCategory.DRINKS in
-                                    picnic.selected_categories %}checked{% endif %}>
+                                    picnic.selected_categories %} checked{% endif %} {% if ItemCategory.DRINKS.value in
+                                    used_categories %} disabled{% endif %}>
                                 Drinks
                             </label>
                         </div>
@@ -55,7 +57,8 @@
                         <div>
                             <label>
                                 <input type="checkbox" name="categories" value="Equipment" {% if ItemCategory.EQUIPMENT
-                                    in picnic.selected_categories %}checked{% endif %}>
+                                    in picnic.selected_categories %} checked{% endif %} {% if
+                                    ItemCategory.EQUIPMENT.value in used_categories %} disabled{% endif %}>
                                 Equipment
                             </label>
 
@@ -64,7 +67,8 @@
                         <div>
                             <label>
                                 <input type="checkbox" name="categories" value="Desserts" {% if ItemCategory.DESSERTS in
-                                    picnic.selected_categories %}checked{% endif %}>
+                                    picnic.selected_categories %} checked{% endif %} {% if ItemCategory.DESSERTS.value
+                                    in used_categories %} disabled{% endif %}>
                                 Desserts
                             </label>
                         </div>
@@ -72,7 +76,8 @@
                         <div>
                             <label>
                                 <input type="checkbox" name="categories" value="Entertainment" {% if
-                                    ItemCategory.ENTERTAINMENT in picnic.selected_categories %}checked{% endif %}>
+                                    ItemCategory.ENTERTAINMENT in picnic.selected_categories %} checked{% endif %} {% if
+                                    ItemCategory.ENTERTAINMENT.value in used_categories %} disabled{% endif %}>
                                 Entertainment
                             </label>
                         </div>
@@ -80,7 +85,8 @@
                         <div>
                             <label>
                                 <input type="checkbox" name="categories" value="Snacks" {% if ItemCategory.SNACKS in
-                                    picnic.selected_categories %}checked{% endif %}>
+                                    picnic.selected_categories %} checked{% endif %} {% if ItemCategory.SNACKS.value in
+                                    used_categories %} disabled{% endif %}>
                                 Snacks
                             </label>
                         </div>
