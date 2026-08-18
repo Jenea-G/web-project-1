@@ -235,7 +235,8 @@ def edit_picnic(picnic_id):
         invitation_code = request.form.get("invitation_code").strip()
 
         categories = request.form.getlist("categories")
-
+        removed_categories = used_categories - set(categories)
+        
         errors = []
 
         if not picnic_name:
@@ -249,6 +250,11 @@ def edit_picnic(picnic_id):
 
         if not categories:
             errors.append("Please select at least one category.")
+
+        # Prevent removing categories that already contain items
+        if removed_categories:
+            errors.append(
+                "You cannot remove categories that already contain items.")
 
         if errors:
             for error in errors:

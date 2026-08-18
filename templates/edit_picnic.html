@@ -41,14 +41,10 @@
                         <div>
                             <label>
                                 <input type="checkbox" name="categories" value="{{ category.value }}" {% if category in
-                                    picnic.selected_categories %}checked{% endif %} {% if category.value in
-                                    used_categories %}disabled{% endif %}>
+                                    picnic.selected_categories %}checked{% endif %}>
 
                                 {{ category.value }}
 
-                                {% if category.value in used_categories %}
-                                <input type="hidden" name="categories" value="{{ category.value }}">
-                                {% endif %}
                             </label>
                         </div>
                         {% endfor %}
