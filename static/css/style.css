@@ -422,6 +422,22 @@ h3 {
     margin-bottom: 10px;
 }
 
+.copy-btn {
+    border: none;
+    background: none;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.copy-btn img {
+    height: 15px;
+}
+
+.copy-btn:hover {
+    transform: translate(0.8px, -0.8px);
+}
+
 .picnic-info-flex {
     display: flex;
     flex-direction: row;
@@ -839,7 +855,5 @@ input[type="checkbox"]:disabled {
         grid-template-columns: 1fr;
         grid-gap: 30px;
     }
-
-
 
 }

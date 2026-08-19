@@ -2,6 +2,7 @@ console.log("script loaded");
 const tabs = document.querySelectorAll(".join-tab");
 const closeBtn = document.getElementById("close-btn");
 const deletePicnicBtns = document.querySelectorAll(".delete-picnic-btn");
+const copyBtns = document.querySelectorAll(".copy-btn");
 
 /** 'First Time Joinging' and 'Returning' Tab selection for guests */
 tabs.forEach((tab) => {
@@ -74,5 +75,24 @@ deletePicnicBtns.forEach((deletePicnicBtn) => {
       console.log(`"${picnicName}" picnic deletion cancelled.`);
       messagePopUp.remove();
     });
+  });
+});
+
+function updateClipboard(newClip) {
+  navigator.clipboard.writeText(newClip).then(
+    () => {
+      /* clipboard successfully set */
+    },
+    () => {
+      /* clipboard write failed */
+    },
+  );
+}
+
+copyBtns.forEach((copyBtn) => {
+  copyBtn.addEventListener("click", () => {
+    const content = copyBtn.dataset.content;
+    console.log(`data to copy: ${content}`);
+    updateClipboard(content);
   });
 });

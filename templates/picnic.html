@@ -12,12 +12,29 @@
         <h1>{{ picnic.picnic_name }}</h1>
 
         <div class="picnic-welcome">
-            <p>Hi, {{ current_user.name or guest.name }} </p>
+            <p class="p-special">Hi, {{ current_user.name or guest.name }} </p>
             <!-- Guest pin display for a guest -->
             {% if guest %}
             <div>
                 <span>Your Pin:</span>
                 <strong>{{ guest.pin }}</strong>
+            </div>
+            {% endif %}
+            {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
+            <div>
+                <p>Share your picnic information to invite guests:</p>
+                <div>
+                    <span>Picninc Name:</span>
+                    <strong>{{ picnic.picnic_name }}</strong><button class="copy-btn" type="button"
+                        title="Copy picnic name" data-content="{{ picnic.picnic_name }}"><img
+                            src="/static/images/Copy-icon.svg" alt="Copy picnic name to clipboard"></button>
+                </div>
+                <div>
+                    <span>Invitation Code:</span>
+                    <strong>{{ picnic.invitation_code }}</strong><button class="copy-btn" type="button"
+                        title="Copy picnic invitation code" data-content="{{ picnic.invitation_code }}"><img
+                            src="/static/images/Copy-icon.svg" alt="Copy picnic invitation code to clipboard"></button>
+                </div>
             </div>
             {% endif %}
         </div>
