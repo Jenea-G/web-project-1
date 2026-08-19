@@ -37,7 +37,7 @@ login_manager.init_app(app)         # Attach manager to the app
 def load_user(user_id):
     return db.session.get(User, int(user_id))
 
-# Registeration Validation
+# Registration Validation
 def validate_password(password):
 
     if len(password) < 8:
@@ -172,6 +172,8 @@ def create_picnic():
 
         categories = request.form.getlist("categories")
 
+        existing_code = Picnic.query.filter_by(invitation_code=invitation_code).first()
+
         errors = []
 
         if not picnic_name:
@@ -182,6 +184,9 @@ def create_picnic():
 
         if not invitation_code:
             errors.append("Invitation code is required.")
+                
+        if existing_code:
+            errors.append("This invitation code is already in use. Please choose another one.")
 
         if not categories:
             errors.append("Please select at least one category.")

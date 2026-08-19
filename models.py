@@ -42,7 +42,7 @@ class Picnic(db.Model):
     
     id = db.Column(db.Integer, primary_key = True)
     picnic_name = db.Column(db.String(155), nullable = False)
-    invitation_code = db.Column(db.String(155), nullable = False)
+    invitation_code = db.Column(db.String(155), nullable = False, unique = True)
     location = db.Column(db.String(155), nullable = False)
     date = db.Column(db.Date, nullable = False)
     categories =  db.Column(db.String(255), nullable = False) # fixed selection of categories
