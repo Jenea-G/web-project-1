@@ -195,7 +195,7 @@ def create_picnic():
             for error in errors:
                 flash(error, "error")
 
-            return render_template("create_picnic.html")
+            return render_template("create_picnic.html", name=picnic_name, location=location, date=date_str, categories=categories)
 
         picnic = Picnic(
             picnic_name=picnic_name,

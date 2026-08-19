@@ -10,17 +10,19 @@
                 <div>
                     <div>
                         <label for="picnic_name">Picnic name</label>
-                        <input type="text" id="picnic_name" name="picnic_name" maxlength="155" required>
+                        <input type="text" id="picnic_name" name="picnic_name" maxlength="155" required
+                            value="{{ name or ''}}">
                     </div>
 
                     <div>
                         <label for="location">Location</label>
-                        <input type="text" id="location" name="location" maxlength="155" required>
+                        <input type="text" id="location" name="location" maxlength="155" required
+                            value="{{ location or ''}}">
                     </div>
 
                     <div>
                         <label for="date">Date</label>
-                        <input type="date" id="date" name="date" required>
+                        <input type="date" id="date" name="date" required value="{{ date or ''}}">
                     </div>
 
                     <div>
@@ -34,14 +36,16 @@
                         <legend class="p-special">Item categories</legend>
                         <div>
                             <label>
-                                <input type="checkbox" name="categories" value="Food">
+                                <input type="checkbox" name="categories" value="Food" {% if "Food" in categories
+                                    %}checked{% endif %}>
                                 Food
                             </label>
                         </div>
 
                         <div>
                             <label>
-                                <input type="checkbox" name="categories" value="Drinks">
+                                <input type="checkbox" name="categories" value="Drinks" {% if "Drinks" in categories
+                                    %}checked{% endif %}>
                                 Drinks
                             </label>
 
@@ -49,28 +53,32 @@
 
                         <div>
                             <label>
-                                <input type="checkbox" name="categories" value="Equipment">
+                                <input type="checkbox" name="categories" value="Equipment" {% if "Equipment" in
+                                    categories %}checked{% endif %}>
                                 Equipment
                             </label>
                         </div>
 
                         <div>
                             <label>
-                                <input type="checkbox" name="categories" value="Desserts">
+                                <input type="checkbox" name="categories" value="Desserts" {% if "Desserts" in categories
+                                    %}checked{% endif %}>
                                 Desserts
                             </label>
                         </div>
 
                         <div>
                             <label>
-                                <input type="checkbox" name="categories" value="Entertainment">
+                                <input type="checkbox" name="categories" value="Entertainment" {% if "Entertainment" in
+                                    categories %}checked{% endif %}>
                                 Entertainment
                             </label>
                         </div>
 
                         <div>
                             <label>
-                                <input type="checkbox" name="categories" value="Snacks">
+                                <input type="checkbox" name="categories" value="Snacks" {% if "Snacks" in categories
+                                    %}checked{% endif %}>
                                 Snacks
                             </label>
                         </div>
