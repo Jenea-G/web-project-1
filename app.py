@@ -555,6 +555,12 @@ def generate_guest_pin(picnic):
 # join picnic as guest
 @app.route("/join", methods=["GET", "POST"])
 def join_picnic():
+
+    # restriction to join as a guest when user logged in
+    if current_user.is_authenticated:
+        flash("Please log out before joining a picnic as a guest.", "error")
+        return redirect(url_for("picnics"))
+
     if request.method == "POST":
         picnic_name = request.form.get(
             "picnic_name", ""
