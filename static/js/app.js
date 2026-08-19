@@ -42,15 +42,13 @@ deletePicnicBtns.forEach((deletePicnicBtn) => {
     const picnicName = deletePicnicBtn.dataset.picnicName;
     const deleteUrl = deletePicnicBtn.dataset.deleteUrl;
 
-    const messagePopUp = document.createElement("div");
-    const p = document.createElement("p");
+    const messagePopUp = createFlashMessage(
+      `Are you sure you want to delete "${picnicName}" picnic?`,
+    );
     const actions = document.createElement("div");
     const cancelAncor = document.createElement("a");
     const confirmForm = document.createElement("form");
     const confirmBtn = document.createElement("button");
-
-    messagePopUp.classList.add("flash-messages");
-    p.textContent = `Are you sure you want to delete "${picnicName}" picnic?`;
 
     confirmForm.action = deleteUrl;
     confirmForm.method = "POST";
@@ -66,7 +64,6 @@ deletePicnicBtns.forEach((deletePicnicBtn) => {
     actions.appendChild(cancelAncor);
     actions.appendChild(confirmForm);
 
-    messagePopUp.appendChild(p);
     messagePopUp.appendChild(actions);
 
     feedback.replaceChildren(messagePopUp); // to avoid adding up messages if the previous feedback message wasn't closed.
@@ -78,21 +75,55 @@ deletePicnicBtns.forEach((deletePicnicBtn) => {
   });
 });
 
-function updateClipboard(newClip) {
-  navigator.clipboard.writeText(newClip).then(
+/** Create feedback messages helper function with optional category for "error" */
+function createFlashMessage(message, category = "") {
+  const messagePopUp = document.createElement("div");
+  const p = document.createElement("p");
+
+  messagePopUp.classList.add("flash-messages");
+  if (category) {
+    p.classList.add(category);
+  }
+  p.textContent = message;
+
+  messagePopUp.appendChild(p);
+
+  return messagePopUp;
+}
+
+/** Copy to clipboard operation */
+function updateClipboard(content, label) {
+  const feedback = document.querySelector(".feedback");
+
+  navigator.clipboard.writeText(content).then(
     () => {
-      /* clipboard successfully set */
+      const message = createFlashMessage(`${label} copied to clipboard.`);
+
+      feedback.replaceChildren(message);
+      setTimeout(() => {
+        message.remove();
+      }, 2000);
     },
     () => {
-      /* clipboard write failed */
+      const message = createFlashMessage(
+        `Failed to copy ${label.toLowerCase()}.`,
+        "error",
+      );
+
+      feedback.replaceChildren(message);
+      setTimeout(() => {
+        message.remove();
+      }, 2000);
     },
   );
 }
 
+/** Triggering updateClipboard function to copy content */
 copyBtns.forEach((copyBtn) => {
   copyBtn.addEventListener("click", () => {
     const content = copyBtn.dataset.content;
+    const label = copyBtn.dataset.label;
     console.log(`data to copy: ${content}`);
-    updateClipboard(content);
+    updateClipboard(content, label);
   });
 });
