@@ -21,11 +21,12 @@
                     {% if current_user.is_authenticated %}
                     <a href="{{ url_for('picnics') }}"><img src="{{ url_for('static', filename='images/basket.svg') }}"
                             alt="Picnics" class="nav-icon"></a>
-                    <a href="{{ url_for('logout') }}"><img src="{{ url_for('static', filename='images/logout.svg') }}"
-                            alt="Logout" class="nav-icon"></a>
+                    <a href="{{ url_for('user_bp.logout') }}"><img
+                            src="{{ url_for('static', filename='images/logout.svg') }}" alt="Logout"
+                            class="nav-icon"></a>
                     {% else %}
-                    <a href="{{ url_for('login') }}"><img src="{{ url_for('static', filename='images/login.svg') }}"
-                            alt="Login" class="nav-icon"></a>
+                    <a href="{{ url_for('user_bp.login') }}"><img
+                            src="{{ url_for('static', filename='images/login.svg') }}" alt="Login" class="nav-icon"></a>
                     {% endif %}
                 </div>
             </nav>
