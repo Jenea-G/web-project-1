@@ -6,7 +6,7 @@
 
 ## Client need
 
-Picnic Planner is a collaborative web application designed to simplify the organization of group picnics and outdoor gatherings. Organizers often rely on group chats to coordinate supplies, which can lead to duplicate items and forgotten essentials. The application should provide a shared planning space where organizers and guests can collaborate, assign responsibilities, and keep all picnic information in one place.
+Picnic App is a collaborative web application designed to simplify the organization of group picnics and outdoor gatherings. Organizers often rely on group chats to coordinate supplies, which can lead to duplicate items and forgotten essentials. The application should provide a shared planning space where organizers and guests can collaborate, assign responsibilities, and keep all picnic information in one place.
 
 An organizer creates a picnic and shares an invitation code with guests. Participants can add items under categories such as food, drinks, equipment, and entertainment. Guests can claim items they plan to bring, release them if their plans change, and see the responsibilities of other participants. Important unclaimed items are highlighted so that essential supplies are not forgotten.
 
