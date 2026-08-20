@@ -40,7 +40,6 @@
             {% endif %}
         </div>
 
-
         <!-- info -->
         <div class="picnic-info-flex">
 
@@ -91,6 +90,22 @@
 
             </div>
 
+        </div>
+
+        <div class="unclaimed-items">
+            <h2>Items still needed</h2>
+
+            {% for item in picnic.items if not item.is_claimed %}
+            <div class="unclaimed-item-row">
+                <span class="item-cell">{{ item.name }}</span>
+
+                <form method="POST" action="{{ url_for('grab_item', item_id=item.id) }}" class="item-cell item-action">
+                    <button type="submit">Grab</button>
+                </form>
+            </div>
+            {% else %}
+            <p>All items have been claimed!</p>
+            {% endfor %}
         </div>
 
 

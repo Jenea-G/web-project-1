@@ -537,6 +537,18 @@ h3 {
     gap: 3px;
 }
 
+.unclaimed-items {
+    margin-bottom: 40px;
+}
+
+.unclaimed-item-row {
+    display: grid;
+    width: 300px;
+    grid-template-columns: 1.5fr 0.5fr;
+    gap: 3px;
+    margin-bottom: 3px;
+}
+
 .item-cell {
     min-height: 35px;
     padding: 8px 12px;
