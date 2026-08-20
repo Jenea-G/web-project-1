@@ -16,6 +16,9 @@
     --secondary: #E13329;
     --secondary-light: #F29E8F;
     --secondary-light-50: #f29e8f8a;
+    --accent: #e19d29;
+    --accent-light: #F2D596;
+    --accent-light-50: #f2d59678;
     --header-bg: #C9D0C6;
     --background: #FEFADF;
     --background-50: rgb(254, 250, 223, 0.6);
@@ -516,6 +519,36 @@ h3 {
     text-decoration: none;
 }
 
+/* --- unclaimed items section ------ */
+.unclaimed-items {
+    margin-bottom: 40px;
+}
+
+h2.unclaimed {
+    color: var(--accent);
+}
+
+.unclaimed-items-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px 15px;
+}
+
+.unclaimed-item-row {
+    display: grid;
+    width: 30%;
+    min-width: 300px;
+    grid-template-columns: 1.5fr 0.5fr;
+    gap: 3px;
+}
+
+.unclaimed-item-row .item-cell {
+    background-color: var(--accent-light-50);
+}
+
+.unclaimed-item-row .item-action button:hover {
+    background-color: var(--accent-light);
+}
 
 /* --- category grid ------ */
 .categories-grid {
@@ -535,18 +568,6 @@ h3 {
     display: grid;
     grid-template-columns: 1fr 1fr 0.5fr 0.8fr;
     gap: 3px;
-}
-
-.unclaimed-items {
-    margin-bottom: 40px;
-}
-
-.unclaimed-item-row {
-    display: grid;
-    width: 300px;
-    grid-template-columns: 1.5fr 0.5fr;
-    gap: 3px;
-    margin-bottom: 3px;
 }
 
 .item-cell {
