@@ -12,7 +12,7 @@
         <h1>{{ picnic.picnic_name }}</h1>
 
         <div class="picnic-welcome">
-            <p class="p-special">Hi, {{ current_user.name or guest.name }} </p>
+            <p class="p-special">Hi, {{ current_user.name or guest.name }}!</p>
             <!-- Guest pin display for a guest -->
             {% if guest %}
             <div>
@@ -92,13 +92,14 @@
 
         </div>
 
+        <!-- Unclaimed items section -->
         <div class="unclaimed-items">
-            <h2 class="unclaimed">Items still needed</h2>
+            <h2 class="unclaimed">Still Up for Grabs</h2>
 
             <div class="unclaimed-items-flex">
                 {% for item in picnic.items if not item.is_claimed %}
                 <div class="unclaimed-item-row">
-                    <span class="item-cell">{{ item.name }}</span>
+                    <div class="item-cell item-name">{{ item.name }}</div>
 
                     <form method="POST" action="{{ url_for('grab_item', item_id=item.id) }}"
                         class="item-cell item-action">
@@ -141,19 +142,22 @@
                             {% if item.claimed_by_user %}
                             <!-- show 'you' if claimant is the current user -->
                             {% if current_user.is_authenticated and item.claimed_by_user_id == current_user.id %}
-                            <strong class="you">You</strong>
+                            <p class="claimant-you">You</p>
                             {% else %}
-                            <strong>{{ item.claimed_by_user.name }}</strong>
+                            <p>{{ item.claimed_by_user.name }}</p>
                             {% endif %}
 
                             {% elif item.claimed_by_guest %}
                             <!-- show 'you' if claimant is the current guest -->
                             {% if guest and item.claimed_by_guest_id == guest.id %}
-                            <strong class="you">You</strong>
+                            <p class="claimant-you">You</p>
                             {% else %}
-                            <strong>{{ item.claimed_by_guest.name }}</strong>
+                            <p>{{ item.claimed_by_guest.name }}</p>
                             {% endif %}
                             {% endif %}
+
+                            {% else %}
+                            <p class="waiting">Waiting for a hero</p>
 
                             {% endif %}
 
@@ -211,7 +215,7 @@
                     {% endfor %} <!-- end of items loop -->
 
                     {% else %}
-                    <p class="category-empty">No items in this category yet.</p>
+                    <p class="category-empty">No {{ category.value }} added yet.</p>
 
                     {% endif %} <!-- end of `if items` condition -->
 
@@ -221,10 +225,10 @@
                 <!-- add item -->
                 <form action="{{ url_for('add_item', picnic_id=picnic.id) }}" method="POST" class="add-item-form">
 
-                    <input type="text" name="item_name" placeholder="Add an item" required>
+                    <input type="text" name="item_name" placeholder="Add an item&thinsp;.&thinsp;.&thinsp;." required>
                     <input type="hidden" name="category" value="{{ category.name }}">
                     <button type="submit">
-                        Add item <img src="/static/images/plus.svg" alt="Add items to {{ category.value }}">
+                        <img src="/static/images/plus.svg" alt="Add items to {{ category.value }}">
                     </button>
 
                 </form>
