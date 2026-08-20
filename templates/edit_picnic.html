@@ -36,17 +36,27 @@
                     <fieldset>
                         <legend class="p-special">Item categories</legend>
 
-                        <!-- Checked categories are selected for the picnic; used categories already contain items. -->
+                        <!-- 'Checked categories' were previously selected for the picnic; 'used categories' already contain items. -->
                         {% for category in ItemCategory %}
                         <div>
                             <label>
                                 <input type="checkbox" name="categories" value="{{ category.value }}" {% if category in
-                                    picnic.selected_categories %}checked{% endif %}>
+                                    picnic.selected_categories %}checked{% endif %} {% if category.value in
+                                    used_categories %}disabled{% endif %}>
 
                                 {{ category.value }}
 
+                                <!-- Hidden input preserves 'used categories' because disabled checkboxes are not submitted with the form -->
+                                {% if category.value in used_categories %}
+                                <input type="hidden" name="categories" value="{{ category.value }}">
+                                {% endif %}
+
                             </label>
                         </div>
+                        {% endfor %}
+
+                        {% for used_category in picnic.used_categories %}
+                        <p>[{{ used_category }}] - length: {{ used_category|length }}</p>
                         {% endfor %}
 
                     </fieldset>

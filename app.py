@@ -120,6 +120,8 @@ def edit_picnic(picnic_id):
         category = item.category.value
         used_categories.add(category)
 
+    # print(used_categories)
+
     # Only the organizer can edit this picnic
     if picnic.user_id != current_user.id:
         flash("You cannot edit this picnic.", "error")
