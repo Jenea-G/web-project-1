@@ -101,7 +101,7 @@
                 <div class="unclaimed-item-row">
                     <div class="item-cell item-name">{{ item.name }}</div>
 
-                    <form method="POST" action="{{ url_for('grab_item', item_id=item.id) }}"
+                    <form method="POST" action="{{ url_for('item_bp.grab_item', item_id=item.id) }}"
                         class="item-cell item-action">
                         <button type="submit">Grab</button>
                     </form>
@@ -169,12 +169,12 @@
                             {% if item.is_claimed %}
 
                             {% if current_user.is_authenticated and item.claimed_by_user_id == current_user.id %}
-                            <form action="{{ url_for('drop_item', item_id=item.id) }}" method="POST">
+                            <form action="{{ url_for('item_bp.drop_item', item_id=item.id) }}" method="POST">
                                 <button type="submit">Drop</button>
                             </form>
 
                             {% elif guest and item.claimed_by_guest_id == guest.id %}
-                            <form action="{{ url_for('drop_item', item_id=item.id) }}" method="POST">
+                            <form action="{{ url_for('item_bp.drop_item', item_id=item.id) }}" method="POST">
                                 <button type="submit">Drop</button>
                             </form>
 
@@ -184,7 +184,7 @@
 
                             {% else %}
 
-                            <form action="{{ url_for('grab_item', item_id=item.id) }}" method="POST">
+                            <form action="{{ url_for('item_bp.grab_item', item_id=item.id) }}" method="POST">
                                 <button type="submit" class="grab">Grab</button>
                             </form>
                             {% endif %}
@@ -195,8 +195,8 @@
 
                             <!-- optional edit / delete -->
                             {% if not item.is_claimed %} <!-- start of `item not-claimed` condition -->
-                            <a href="{{ url_for('edit_item', item_id=item.id) }}">Edit</a>
-                            <form action="{{ url_for('delete_item', item_id=item.id) }}" method="POST">
+                            <a href="{{ url_for('item_bp.edit_item', item_id=item.id) }}">Edit</a>
+                            <form action="{{ url_for('item_bp.delete_item', item_id=item.id) }}" method="POST">
                                 <button type="submit">Delete</button>
                             </form>
 
@@ -205,7 +205,7 @@
                             or
                             (guest and item.claimed_by_guest_id == guest.id)
                             %}
-                            <a href="{{ url_for('edit_item', item_id=item.id) }}">Edit</a>
+                            <a href="{{ url_for('item_bp.edit_item', item_id=item.id) }}">Edit</a>
 
                             {% endif %} <!-- end of `item not-claimed` condition -->
                         </div>
@@ -223,7 +223,8 @@
 
 
                 <!-- add item -->
-                <form action="{{ url_for('add_item', picnic_id=picnic.id) }}" method="POST" class="add-item-form">
+                <form action="{{ url_for('item_bp.add_item', picnic_id=picnic.id) }}" method="POST"
+                    class="add-item-form">
 
                     <input type="text" name="item_name" placeholder="Add an item&thinsp;.&thinsp;.&thinsp;." required>
                     <input type="hidden" name="category" value="{{ category.name }}">
