@@ -21,7 +21,7 @@
 
                 <!-- first time joining -->
                 <div class="join-form active" id="first">
-                    <form method="post" action="{{ url_for('join_picnic') }}" class="form form-green">
+                    <form method="post" action="{{ url_for('guest_bp.join_picnic') }}" class="form form-green">
                         <div>
                             <label for="picnic-name">Picnic name</label>
                             <input type="text" id="picnic-name" name="picnic_name" value="{{ picnic_name or '' }}"
@@ -49,7 +49,7 @@
 
                 <!-- returning -->
                 <div class="join-form" id="returning">
-                    <form method="post" action="{{ url_for('returning_guest') }}" class="form form-green">
+                    <form method="post" action="{{ url_for('guest_bp.returning_guest') }}" class="form form-green">
                         <div>
                             <label for="invitation-code">Invitation code</label>
                             <input type="text" id="invitation-code" name="invitation_code"
