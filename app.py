@@ -6,11 +6,13 @@ from flask_login import (LoginManager, login_user, logout_user, current_user, lo
 
 from models import (db, User, Picnic, Item, Guest, ItemCategory)
 from routes.user import user_bp
+from routes.picnic import picnic_bp
 
 from datetime import datetime
 
 app = Flask(__name__)
 app.register_blueprint(user_bp)
+app.register_blueprint(picnic_bp)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///picnic_app.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -39,186 +41,6 @@ login_manager.init_app(app)         # Attach manager to the app
 def load_user(user_id):
     return db.session.get(User, int(user_id))
 
-# picnics
-@app.route("/picnics", methods=["GET"])
-@login_required
-def picnics():
-    user_picnics = Picnic.query.filter_by(
-        user_id=current_user.id
-    ).all()
-
-    return render_template(
-        "picnics.html",
-        picnics=user_picnics
-    )
-
-# create_picnic
-@app.route("/picnics/create", methods=["GET", "POST"])
-@login_required
-def create_picnic():
-    if request.method == "POST":
-        picnic_name = request.form.get("picnic_name").strip()
-        location = request.form.get("location").strip()
-        date_str = request.form.get("date")
-        date = datetime.strptime(date_str, "%Y-%m-%d").date()
-        invitation_code = request.form.get("invitation_code").strip()
-
-        categories = request.form.getlist("categories")
-
-        existing_code = Picnic.query.filter_by(invitation_code=invitation_code).first()
-
-        errors = []
-
-        if not picnic_name:
-            errors.append("Picnic name is required.")
-        
-        if not location:
-            errors.append("Location is required.")
-
-        if not invitation_code:
-            errors.append("Invitation code is required.")
-                
-        if existing_code:
-            errors.append("This invitation code is already in use. Please choose another one.")
-
-        if not categories:
-            errors.append("Please select at least one category.")
-
-        if errors:
-            for error in errors:
-                flash(error, "error")
-
-            return render_template("create_picnic.html", name=picnic_name, location=location, date=date_str, categories=categories)
-
-        picnic = Picnic(
-            picnic_name=picnic_name,
-            invitation_code=invitation_code,
-            location=location,
-            date=date,
-            categories=",".join(categories),
-            user=current_user
-        )
-
-        db.session.add(picnic)
-        db.session.commit()
-
-        flash("Picnic created successfully.", "success")
-
-        return redirect(url_for("picnics"))
-
-    return render_template("create_picnic.html")
-
-# edit picnic logic
-@app.route("/picnics/<int:picnic_id>/edit", methods=["GET", "POST"])
-@login_required
-def edit_picnic(picnic_id):
-    picnic = Picnic.query.get_or_404(picnic_id)
-
-    # create a set of used categories to avoid removing them as they have items inside (& sending them to the template)
-    used_categories = set()
-    for item in picnic.items:
-        category = item.category.value
-        used_categories.add(category)
-
-    # print(used_categories)
-
-    # Only the organizer can edit this picnic
-    if picnic.user_id != current_user.id:
-        flash("You cannot edit this picnic.", "error")
-        return redirect(url_for("picnic", picnic_id=picnic.id))
-
-    if request.method == "POST":
-        picnic_name = request.form.get("picnic_name").strip()
-        location = request.form.get("location").strip()
-        date_str = request.form.get("date")
-        date = datetime.strptime(date_str, "%Y-%m-%d").date()
-        invitation_code = request.form.get("invitation_code").strip()
-
-        categories = request.form.getlist("categories")
-        removed_categories = used_categories - set(categories)
-        
-        errors = []
-
-        if not picnic_name:
-            errors.append("Picnic name is required.")
-        
-        if not location:
-            errors.append("Location is required.")
-
-        if not invitation_code:
-            errors.append("Invitation code is required.")
-
-        if not categories:
-            errors.append("Please select at least one category.")
-
-        # Prevent removing categories that already contain items
-        if removed_categories:
-            errors.append(
-                "You cannot remove categories that already contain items.")
-
-        if errors:
-            for error in errors:
-                flash(error, "error")
-
-            return render_template("edit_picnic.html",picnic=picnic,ItemCategory=ItemCategory, used_categories=used_categories)
-
-        picnic.picnic_name = picnic_name
-        picnic.invitation_code = invitation_code
-        picnic.location = location
-        picnic.date = date
-        picnic.categories = ",".join(categories)
-
-        db.session.commit()
-
-        flash("Picnic updated successfully.", "success")
-
-        return redirect(url_for("picnic", picnic_id=picnic.id))
-
-    return render_template("edit_picnic.html",picnic=picnic,ItemCategory=ItemCategory, used_categories=used_categories)
-
-# picnic
-@app.route("/picnic/<int:picnic_id>")
-def picnic(picnic_id):
-    picnic = Picnic.query.get_or_404(picnic_id)
-
-    # Check guest
-    guest = Guest.query.filter_by(
-        id=session.get("guest_id"),
-        picnic_id=picnic.id
-    ).first()
-
-    # Organizer
-    if current_user.is_authenticated and picnic.user_id == current_user.id:
-        return render_template(
-            "picnic.html",
-            picnic=picnic,
-        )
-
-    # Guest
-    if guest:
-        return render_template(
-            "picnic.html",
-            picnic=picnic,
-            guest=guest,
-        )
-
-    # Neither organizer nor valid guest
-    flash("You do not have access to this picnic.", "error")
-    return redirect(url_for("home"))
-
-# delete picnic
-@app.route("/picnics/<int:picnic_id>/delete", methods=["POST"])
-@login_required
-def delete_picnic(picnic_id):
-    # get current user's selected picnic
-    picnic = Picnic.query.filter_by(id=picnic_id, user_id=current_user.id).first_or_404()
-          
-    # delete
-    db.session.delete(picnic)
-    db.session.commit()
-
-    flash("Your picnic was successfully deleted", "success")
-    return redirect(url_for("picnics"))                   
 
 # add items to the picnic by user or by guest
 @app.route("/picnic/<int:picnic_id>/items/add", methods=["POST"])
@@ -239,21 +61,21 @@ def add_item(picnic_id):
 
         if not item_name:
             flash("The item name is required.", "error")
-            return redirect(url_for("picnic", picnic_id=picnic.id))
+            return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
 
         if len(item_name) > 155:
             flash("The item name is too long.", "error")
-            return redirect(url_for("picnic", picnic_id=picnic.id))
+            return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
 
         try:
             category = ItemCategory[category_name]
         except KeyError:
             flash("Invalid item category.", "error")
-            return redirect(url_for("picnic", picnic_id=picnic.id))
+            return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
 
         if category not in picnic.selected_categories:
             flash("This category is not available for this picnic.", "error")
-            return redirect(url_for("picnic", picnic_id=picnic.id))
+            return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
 
         item = Item(
             name=item_name,
@@ -269,7 +91,7 @@ def add_item(picnic_id):
     else:
         flash("You cannot add items to this picnic.", "error")
 
-    return redirect(url_for("picnic", picnic_id=picnic.id))
+    return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
     
 
 # claim items by user(organizer) or guest
@@ -304,7 +126,7 @@ def grab_item(item_id):
         flash("This item has already been claimed.", "error")
 
     return redirect(
-        url_for("picnic", picnic_id=item.picnic_id)
+        url_for("picnic_bp.picnic", picnic_id=item.picnic_id)
     )
 
 # drop items by user or guest who have claimed them
@@ -334,7 +156,7 @@ def drop_item(item_id):
     else:
         flash("You can only drop items you have claimed.", "error")
 
-    return redirect(url_for("picnic", picnic_id=item.picnic_id))
+    return redirect(url_for("picnic_bp.picnic", picnic_id=item.picnic_id))
 
 # delete items by guests or users
 @app.route("/items/<int:item_id>/delete", methods=["POST"])
@@ -355,19 +177,19 @@ def delete_item(item_id):
     if not organizer and not guest:
         flash("You cannot delete items from this picnic.", "error")
         return redirect(
-            url_for("picnic", picnic_id=picnic.id))
+            url_for("picnic_bp.picnic", picnic_id=picnic.id))
 
     # Cannot delete a claimed item
     if item.is_claimed:
         flash("You cannot delete an item that has been claimed.", "error")
-        return redirect(url_for("picnic", picnic_id=picnic.id))
+        return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
 
     db.session.delete(item)
     db.session.commit()
 
     flash("Item deleted successfully.", "success")
 
-    return redirect(url_for("picnic", picnic_id=picnic.id))
+    return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
 
 # edit items logic
 @app.route("/items/<int:item_id>/edit", methods=["GET", "POST"])
@@ -385,7 +207,7 @@ def edit_item(item_id):
     # Must belong to this picnic
     if not organizer and not guest:
         flash("You cannot edit items from this picnic.", "error")
-        return redirect(url_for("picnic", picnic_id=picnic.id))
+        return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
 
     # Item must be free or claimed by this participant
     can_edit = (not item.is_claimed
@@ -394,7 +216,7 @@ def edit_item(item_id):
 
     if not can_edit:
         flash("You can only edit unclaimed items or items you have claimed.", "error")
-        return redirect(url_for("picnic", picnic_id=picnic.id))
+        return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
 
     # GET -> show form
     if request.method == "GET":
@@ -436,7 +258,7 @@ def edit_item(item_id):
     flash("Item updated successfully.", "success")
 
     return redirect(
-        url_for("picnic", picnic_id=picnic.id)
+        url_for("picnic_bp.picnic", picnic_id=picnic.id)
     )
 
 
@@ -459,7 +281,7 @@ def join_picnic():
     # restriction to join as a guest when user logged in
     if current_user.is_authenticated:
         flash("Please log out before joining a picnic as a guest.", "error")
-        return redirect(url_for("picnics"))
+        return redirect(url_for("user_bp.picnics"))
 
     if request.method == "POST":
         picnic_name = request.form.get(

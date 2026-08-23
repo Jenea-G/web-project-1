@@ -3,7 +3,7 @@
 <section class="home">
     <div class="container">
         <div class="div-btn">
-            <a href="{{ url_for('create_picnic') }}" class="btn">Create Picnic</a>
+            <a href="{{ url_for('picnic_bp.create_picnic') }}" class="btn">Create Picnic</a>
             <!-- condition to hide `join picnic` for logged in users -->
             {% if not current_user.is_authenticated %}
             <a href="{{ url_for('join_picnic') }}" class="btn btn-secondary">Join Picnic</a>

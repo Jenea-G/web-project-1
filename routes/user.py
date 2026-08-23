@@ -100,7 +100,7 @@ def login():
 
         flash("You are now logged in.", "success")
 
-        return redirect(url_for("picnics"))
+        return redirect(url_for("user_bp.picnics"))
     
     return render_template("login.html")
 
@@ -112,3 +112,16 @@ def logout():
 
     flash("You have been logged out.", "success")
     return redirect(url_for("home"))
+
+# picnics
+@user_bp.route("/picnics", methods=["GET"])
+@login_required
+def picnics():
+    user_picnics = Picnic.query.filter_by(
+        user_id=current_user.id
+    ).all()
+
+    return render_template(
+        "picnics.html",
+        picnics=user_picnics
+    )

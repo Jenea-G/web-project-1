@@ -6,7 +6,7 @@
             <h2>Welcome, {{ current_user.name }}</h2>
 
             <p>Browse your picnics or create a new one.</p>
-            <a class="btn btn-small btn-small--green" href="{{ url_for('create_picnic') }}">
+            <a class="btn btn-small btn-small--green" href="{{ url_for('picnic_bp.create_picnic') }}">
                 Create a picnic
             </a>
         </div>
@@ -28,13 +28,14 @@
                         <p><span>Date: </span>{{ picnic.date }}</p>
                         <p><span>Location: </span>{{ picnic.location }}</p>
                         <div class="picnic-card-actions">
-                            <a href="{{ url_for('picnic', picnic_id=picnic.id) }}" class="picnic-action">View</a>
-                            <form action="{{ url_for('delete_picnic', picnic_id=picnic.id) }}" method="POST"
+                            <a href="{{ url_for('picnic_bp.picnic', picnic_id=picnic.id) }}"
+                                class="picnic-action">View</a>
+                            <form action="{{ url_for('picnic_bp.delete_picnic', picnic_id=picnic.id) }}" method="POST"
                                 class="picnic-action picnic-action-delete">
 
                                 <button type="submit" class="delete-picnic-btn"
                                     data-picnic-name="{{ picnic.picnic_name }}"
-                                    data-delete-url="{{ url_for('delete_picnic', picnic_id=picnic.id) }}">
+                                    data-delete-url="{{ url_for('picnic_bp.delete_picnic', picnic_id=picnic.id) }}">
                                     Delete
                                 </button>
 
