@@ -17,7 +17,9 @@
             {% if guest %}
             <div>
                 <span>Your Pin:</span>
-                <strong>{{ guest.pin }}</strong>
+                <strong>{{ guest.pin }}</strong><button class="copy-btn" type="button" title="Copy your pin"
+                    data-content="{{ guest.pin }}" data-label="Guest pin"><img src="/static/images/Copy-icon.svg"
+                        alt="Copy your pin to clipboard"></button>
             </div>
             {% endif %}
             {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
@@ -195,9 +197,10 @@
 
                             <!-- optional edit / delete -->
                             {% if not item.is_claimed %} <!-- start of `item not-claimed` condition -->
-                            <a href="{{ url_for('item_bp.edit_item', item_id=item.id) }}">Edit</a>
+                            <a href="{{ url_for('item_bp.edit_item', item_id=item.id) }}"><img
+                                    src="/static/images/edit.svg" alt="edit item"></a>
                             <form action="{{ url_for('item_bp.delete_item', item_id=item.id) }}" method="POST">
-                                <button type="submit">Delete</button>
+                                <button type="submit"><img src="/static/images/delete.svg" alt="delete item"></button>
                             </form>
 
                             {% elif

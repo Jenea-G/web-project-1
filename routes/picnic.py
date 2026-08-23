@@ -1,5 +1,5 @@
 from flask import (Blueprint, request, url_for, redirect, flash, session, render_template)
-from models import (db, User, Picnic, ItemCategory, Guest)
+from models import (db, Picnic, ItemCategory, Guest)
 from flask_login import (login_required, current_user)
 from datetime import datetime
 

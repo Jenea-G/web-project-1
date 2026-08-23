@@ -1,6 +1,6 @@
 from flask import (Blueprint, redirect, request, url_for, flash, render_template)
-from flask_login import (LoginManager, current_user, login_user, login_required, logout_user )
-from models import (db, User, Picnic, ItemCategory)
+from flask_login import (current_user, login_user, login_required, logout_user )
+from models import (db, User, Picnic)
 
 user_bp = Blueprint("user_bp", __name__)
 

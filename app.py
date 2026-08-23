@@ -1,25 +1,25 @@
 # 1 Create the Flask application and database.
 import os
 from dotenv import load_dotenv
-from flask import (Flask, render_template, request, url_for, redirect, flash, session)
-from flask_login import (LoginManager, login_user, logout_user, current_user, login_required)
+from flask import (Flask, render_template)
+from flask_login import (LoginManager)
 
-from models import (db, User, Picnic, Item, Guest, ItemCategory)
+from models import (db, User)
 from routes.user import user_bp
 from routes.picnic import picnic_bp
 from routes.item import item_bp
 from routes.guest import guest_bp
 
-from datetime import datetime
-
 app = Flask(__name__)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///picnic_app.db")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# register blueprints
 app.register_blueprint(user_bp)
 app.register_blueprint(picnic_bp)
 app.register_blueprint(item_bp)
 app.register_blueprint(guest_bp)
-
-app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///picnic_app.db")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # set the secret key from an envrionment variable.
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -35,6 +35,7 @@ def home():
     return render_template(
         "index.html"
     )
+
 # login
 login_manager = LoginManager()      # Create the login manager
 login_manager.login_view = "user_bp.login"  # Redirect unauthenticated users to /login
