@@ -22,7 +22,8 @@
     --accent-light-50: #f2d59678;
     --header-bg: #C9D0C6;
     --background: #FEFADF;
-    --background-50: rgb(254, 250, 223, 0.6);
+    /* --background-50: rgb(254, 250, 223, 0.6); */
+    --background-50: #FEFBE5;
     --text: #003103;
     --text-60: #00310396;
     --text-40: #00310366;
@@ -90,14 +91,14 @@ h1 {
 }
 
 h2 {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 800;
     margin-bottom: 10px;
 }
 
 h3 {
-    font-size: 26px;
-    margin-bottom: 20px;
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
 .p-special {
@@ -132,7 +133,6 @@ h3 {
     border: 1px solid var(--background);
     border-radius: var(--radius);
     box-shadow: -10px 10px 0 0 var(--primary-light);
-
     cursor: url(/static/images/flower.svg), auto;
     transition: 0.3s;
 }
@@ -240,7 +240,6 @@ h3 {
     border-radius: 5px;
     padding: 0 5px 2px;
     color: var(--primary);
-
     transition: 0.3s;
 }
 
@@ -286,7 +285,6 @@ h3 {
     border: 1px solid var(--header-bg);
     background-color: var(--primary-light-50);
     border-radius: var(--radius) 2px 0 0;
-
     cursor: pointer;
 }
 
@@ -392,12 +390,43 @@ h3 {
 }
 
 .picnic-action-delete {
+    flex: 0 0 37.5px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+.delete-picnic-btn {
+    display: block;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    width: 37.5px;
+    height: 37.5px;
+    border-radius: 50%;
+}
+
+.delete-picnic-btn img {
+    height: 37.5px;
+}
+
+.picnic-action:hover {
+    transform: translate(1px, -1px);
+    color: var(--primary);
+}
+
+.delete-picnic-btn:hover {
+    background-color: var(--secondary-light);
+}
+
+.picnic-confirm-delete {
     padding: 0;
     background-color: var(--secondary-light-50);
     border-color: var(--secondary);
 }
 
-.picnic-action-delete button {
+.picnic-confirm-delete button {
     display: block;
     width: 100%;
     height: 100%;
@@ -406,11 +435,6 @@ h3 {
     background: transparent;
     font: inherit;
     cursor: pointer;
-}
-
-.picnic-action:hover {
-    transform: translate(1px, -1px);
-    color: var(--primary);
 }
 
 /* ====== picnic page ==== */
@@ -534,6 +558,11 @@ h3 {
 
 /* --- unclaimed items section ------ */
 .unclaimed-items {
+    padding: 40px;
+    background: var(--background-50);
+    border: 1px solid var(--accent);
+    /* background: white; */
+    border-radius: 55px;
     margin-bottom: 50px;
 }
 
@@ -614,8 +643,13 @@ h2.unclaimed {
     padding: 0 10px;
 }
 
-.item-claimant .claimant-waiting {
+.item-claimant .waiting {
+    font-weight: 300;
     color: var(--text-60);
+}
+
+.waiting .p-special {
+    line-height: 0.5;
 }
 
 .item-action {
@@ -848,11 +882,6 @@ input[type="checkbox"]:disabled {
 }
 
 @media (max-width: 1000px) {
-    h2 {
-        font-size: 28px;
-        margin-bottom: 15px;
-    }
-
     .picnics-grid {
         grid-template-columns: repeat(2, 1fr);
     }

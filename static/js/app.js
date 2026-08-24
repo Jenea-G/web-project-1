@@ -52,7 +52,7 @@ deletePicnicBtns.forEach((deletePicnicBtn) => {
 
     confirmForm.action = deleteUrl;
     confirmForm.method = "POST";
-    confirmForm.classList.add("picnic-action", "picnic-action-delete");
+    confirmForm.classList.add("picnic-action", "picnic-confirm-delete");
     confirmBtn.textContent = "Confirm";
     confirmBtn.type = "submit";
     confirmForm.appendChild(confirmBtn);
