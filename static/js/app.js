@@ -1,16 +1,17 @@
 console.log("script loaded");
-const tabs = document.querySelectorAll(".join-tab");
+const joinTabs = document.querySelectorAll(".join-tab");
+const picnicTabs = document.querySelectorAll(".picnic-tab");
 const closeBtn = document.getElementById("close-btn");
 const deletePicnicBtns = document.querySelectorAll(".delete-picnic-btn");
 const copyBtns = document.querySelectorAll(".copy-btn");
 
 /** 'First Time Joinging' and 'Returning' Tab selection for guests */
-tabs.forEach((tab) => {
+joinTabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     const forms = document.querySelectorAll(".join-form");
     const formType = tab.dataset.tab;
 
-    tabs.forEach((tab) => {
+    joinTabs.forEach((tab) => {
       tab.classList.remove("active");
     });
 
@@ -20,6 +21,25 @@ tabs.forEach((tab) => {
 
     tab.classList.add("active");
     document.getElementById(formType).classList.add("active");
+  });
+});
+
+/** 'Details' and 'Participants' Tab selection for picnic page */
+picnicTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const picnicTabsContent = document.querySelectorAll(".picnic-tab-content");
+    const picnicTabType = tab.dataset.tab;
+
+    picnicTabs.forEach((tab) => {
+      tab.classList.remove("active");
+    });
+
+    picnicTabsContent.forEach((tabContent) => {
+      tabContent.classList.remove("active");
+    });
+
+    tab.classList.add("active");
+    document.getElementById(picnicTabType).classList.add("active");
   });
 });
 

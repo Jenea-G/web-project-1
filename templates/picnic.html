@@ -11,88 +11,103 @@
 
         <h1>{{ picnic.picnic_name }}</h1>
 
-        <div class="picnic-welcome">
-            <p class="p-special">Hi, {{ current_user.name or guest.name }}!</p>
-            <!-- Guest pin display for a guest -->
-            {% if guest %}
-            <div>
-                <span>Your Pin:</span>
-                <strong>{{ guest.pin }}</strong><button class="copy-btn" type="button" title="Copy your pin"
-                    data-content="{{ guest.pin }}" data-label="Guest pin"><img src="/static/images/Copy-icon.svg"
-                        alt="Copy your pin to clipboard"></button>
-            </div>
-            {% endif %}
-            {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
-            <div>
-                <p>Share your picnic information to invite guests:</p>
+        <div class="picnic-top-flex">
+
+            <div class="picnic-welcome">
+                <p class="p-special">Hi, {{ current_user.name or guest.name }}!</p>
+                <!-- Guest pin display for a guest -->
+                {% if guest %}
+                <p class="p-small">Remeber your pin to return to the picnic later</p>
                 <div>
-                    <span>Picninc Name:</span>
-                    <strong>{{ picnic.picnic_name }}</strong><button class="copy-btn" type="button"
-                        title="Copy picnic name" data-content="{{ picnic.picnic_name }}" data-label="Picnic name"><img
-                            src="/static/images/Copy-icon.svg" alt="Copy picnic name to clipboard"></button>
+                    <span>Pin:</span>
+                    <strong>{{ guest.pin }}</strong><button class="copy-btn" type="button" title="Copy your pin"
+                        data-content="{{ guest.pin }}" data-label="Guest pin"><img src="/static/images/Copy-icon.svg"
+                            alt="Copy your pin to clipboard"></button>
                 </div>
-                <div>
-                    <span>Invitation Code:</span>
-                    <strong>{{ picnic.invitation_code }}</strong><button class="copy-btn" type="button"
-                        title="Copy picnic invitation code" data-content="{{ picnic.invitation_code }}"
-                        data-label="Invitation Code"><img src="/static/images/Copy-icon.svg"
-                            alt="Copy picnic invitation code to clipboard"></button>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-
-        <!-- info -->
-        <div class="picnic-info-flex">
-
-            <!-- participants -->
-            <div class="picnic-participants">
-                <h4>participants</h4>
-
-                <div class="organizer">
-                    <span>Organizer:</span>
-                    {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
-                    <strong>You</strong>
-                    {% else %}
-                    <strong>{{ picnic.user.name }}</strong>
-                    {% endif %}
-                </div>
-
-                <div class="guest-list">
-                    {% for picnic_guest in picnic.guests %}
-                    <span>{{ picnic_guest.name }}</span>
-                    {% endfor %}
-                </div>
-
-            </div>
-
-            <!-- picnic details -->
-            <div class="picnic-details">
-
-                <div class="detail-row">
-                    <span>Location:</span>
-                    <strong>{{ picnic.location }}</strong>
-                </div>
-
-                <div class="detail-row">
-                    <span>Date:</span>
-                    <strong>{{ picnic.date }}</strong>
-                </div>
-
-                <div class="detail-row">
-                    <span>Guests joined:</span>
-                    <strong>{{ picnic.guests|length }}</strong>
-                </div>
-
-                {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
-                <a href="{{ url_for('picnic_bp.edit_picnic', picnic_id=picnic.id) }}" class="picnic-edit">
-                    Edit picnic
-                </a>
                 {% endif %}
+                {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
+                <div>
+                    <p class="p-small">Share your picnic information to invite guests:</p>
+                    <div>
+                        <span>Picninc Name:</span>
+                        <strong>{{ picnic.picnic_name }}</strong><button class="copy-btn" type="button"
+                            title="Copy picnic name" data-content="{{ picnic.picnic_name }}"
+                            data-label="Picnic name"><img src="/static/images/Copy-icon.svg"
+                                alt="Copy picnic name to clipboard"></button>
+                    </div>
+                    <div>
+                        <span>Invitation Code:</span>
+                        <strong>{{ picnic.invitation_code }}</strong><button class="copy-btn" type="button"
+                            title="Copy picnic invitation code" data-content="{{ picnic.invitation_code }}"
+                            data-label="Invitation Code"><img src="/static/images/Copy-icon.svg"
+                                alt="Copy picnic invitation code to clipboard"></button>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
 
+            <!-- info -->
+            <div class="picnic-info">
+                <div class="picnic-tabs">
+                    <button class="picnic-tab active" type="button" data-tab="details">
+                        Details
+                    </button>
+                    <button class="picnic-tab" type="button" data-tab="participants">
+                        Participants
+                    </button>
+
+                </div>
+
+                <!-- participants -->
+                <div class="picnic-tab-content picnic-participants" id="participants">
+
+                    <div class="organizer">
+                        <span>Organizer:</span>
+                        {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
+                        <strong>You</strong>
+                        {% else %}
+                        <strong>{{ picnic.user.name }}</strong>
+                        {% endif %}
+                    </div>
+
+                    <div class="guest-list">
+                        {% for picnic_guest in picnic.guests %}
+                        <span>{{ picnic_guest.name }}</span>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <!-- picnic details -->
+                <div class="picnic-tab-content active picnic-details" id="details">
+
+                    <div class="detail-row">
+                        <span>Location:</span>
+                        <strong>{{ picnic.location }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Date:</span>
+                        <strong>{{ picnic.date }}</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Guests joined:</span>
+                        <strong>{{ picnic.guests|length }}</strong>
+                    </div>
+
+                    {% if current_user.is_authenticated and current_user.id == picnic.user_id %}
+                    <a href="{{ url_for('picnic_bp.edit_picnic', picnic_id=picnic.id) }}" class="picnic-edit">
+                        Edit picnic
+                    </a>
+                    {% endif %}
+
+                </div>
             </div>
 
         </div>
+
+
 
         <!-- Unclaimed items section -->
         <div class="unclaimed-items">
@@ -208,7 +223,8 @@
                             or
                             (guest and item.claimed_by_guest_id == guest.id)
                             %}
-                            <a href="{{ url_for('item_bp.edit_item', item_id=item.id) }}">Edit</a>
+                            <a href="{{ url_for('item_bp.edit_item', item_id=item.id) }}"><img
+                                    src="/static/images/edit.svg" alt="edit item"></a>
 
                             {% endif %} <!-- end of `item not-claimed` condition -->
                         </div>
