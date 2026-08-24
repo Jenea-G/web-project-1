@@ -587,6 +587,7 @@ h2.unclaimed {
 .unclaimed-items-flex {
     display: flex;
     flex-wrap: wrap;
+    /* justify-content: space-around; */
     gap: 3px 15px;
 }
 
@@ -594,7 +595,7 @@ h2.unclaimed {
     display: grid;
     width: 30%;
     min-width: 300px;
-    grid-template-columns: 1.5fr 0.5fr;
+    grid-template-columns: 1.6fr 0.4fr;
     gap: 3px;
 }
 
@@ -602,10 +603,8 @@ h2.unclaimed {
     background-color: var(--accent-light-50);
 }
 
-.unclaimed-item-row .item-action button {
-    color: var(--accent);
-    font-size: 15px;
-    font-weight: 500;
+.unclaimed-item-row .item-action button img {
+    transform: translateY(3px);
 }
 
 .unclaimed-item-row .item-action button:hover {
@@ -685,8 +684,17 @@ h2.unclaimed {
 }
 
 .item-action button.grab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
     color: var(--primary);
     font-weight: 500;
+}
+
+.item-action button.grab img {
+    height: 28px;
+    /* transform: translateY(5px); */
 }
 
 .item-action button:hover {
@@ -724,11 +732,6 @@ h2.unclaimed {
     height: 28px;
     width: 28px;
 }
-
-/* 
-.item-secondary-actions button {
-    bacolor: var(--text-60);
-} */
 
 .item-secondary-actions a {
     margin-left: 5px;
@@ -789,6 +792,7 @@ h2.unclaimed {
 .category-empty {
     min-height: 35px;
     padding: 8px 12px;
+    border-radius: 3px;
     background-color: var(--secondary-light-50);
     margin: 0;
 }
@@ -882,6 +886,10 @@ input[type="checkbox"]:disabled {
 
     .item-cell {
         padding: 8px 10px;
+    }
+
+    .item-action {
+        padding: 0;
     }
 }
 
