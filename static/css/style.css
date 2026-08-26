@@ -644,6 +644,13 @@ h2.unclaimed {
     align-items: center;
 }
 
+.top-row .item-cell {
+    font-size: 12px;
+    background-color: transparent;
+    min-height: 15px;
+    padding: 4px 12px;
+}
+
 .item-claimant {
     font-size: 14px;
     font-weight: 500;
