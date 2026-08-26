@@ -867,6 +867,11 @@ input[type="checkbox"]:disabled {
     color: var(--secondary);
 }
 
+.category-img {
+    width: 40px;
+    margin-right: 10px;
+}
+
 @media (max-width: 1200px) {
 
     /* picninc page */

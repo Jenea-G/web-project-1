@@ -147,3 +147,15 @@ copyBtns.forEach((copyBtn) => {
     updateClipboard(content, label);
   });
 });
+
+/** Insert illustrations source for each item category */
+function setCategoryIllustrations() {
+  const illustrations = document.querySelectorAll(".category-img");
+
+  illustrations.forEach((illustration) => {
+    const category = illustration.dataset.category;
+    illustration.src = `/static/images/category_icons/${category}.svg`;
+  });
+}
+
+setCategoryIllustrations();

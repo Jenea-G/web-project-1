@@ -136,7 +136,8 @@
 
             {% for category in picnic.selected_categories %}
             <article class="category">
-                <h2>{{ category.value }}</h2>
+                <h2><img class="category-img" data-category="{{ category.value }}" src="">{{ category.value }}
+                </h2>
 
                 {% set items = picnic.get_items_by_category(category) %}
                 <div class="category-items">
