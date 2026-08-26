@@ -155,7 +155,7 @@
                     <div class="item-row">
 
                         <!-- item name -->
-                        <div class="item-cell item-name">
+                        <div class="item-cell item-name {% if item.is_claimed %}claimed{% endif %}">
                             {{ item.name }}
                         </div>
 

@@ -619,6 +619,10 @@ h2.unclaimed {
     gap: 70px 35px;
 }
 
+.category h2 {
+    color: var(--header-bg);
+}
+
 .category-items {
     display: flex;
     flex-direction: column;
@@ -633,6 +637,10 @@ h2.unclaimed {
 
 .item-cell.item-name {
     font-weight: 600;
+}
+
+.item-name.claimed {
+    color: var(--text-60);
 }
 
 .item-cell {
