@@ -8,6 +8,8 @@ item_bp = Blueprint("item_bp", __name__)
 @item_bp.route("/picnic/<int:picnic_id>/items/add", methods=["POST"])
 def add_item(picnic_id):
     picnic = Picnic.query.get_or_404(picnic_id)
+    items = picnic.items
+    print(items)
 
     # Guest
     guest = Guest.query.filter_by(
@@ -25,6 +27,10 @@ def add_item(picnic_id):
             flash("The item name is required.", "error")
             return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
 
+        if any(item.name.lower() == item_name.lower() for item in items):
+            flash("The item with this name already exists.", "error")
+            return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
+        
         if len(item_name) > 155:
             flash("The item name is too long.", "error")
             return redirect(url_for("picnic_bp.picnic", picnic_id=picnic.id))
