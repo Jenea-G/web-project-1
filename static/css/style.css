@@ -607,6 +607,11 @@ h2.unclaimed {
     transform: translateY(3px);
 }
 
+.unclaimed-item-row .item-action:has(button:hover) {
+    /* to change cell bg to button hover color */
+    background-color: var(--accent-light);
+}
+
 .unclaimed-item-row .item-action button:hover {
     background-color: var(--accent-light);
 }
@@ -680,6 +685,14 @@ h2.unclaimed {
     line-height: 0.5;
 }
 
+.waiting-desktop {
+    display: inline;
+}
+
+.waiting-mobile {
+    display: none;
+}
+
 .item-action {
     padding: 0;
 }
@@ -713,6 +726,10 @@ h2.unclaimed {
 }
 
 .item-action button:hover {
+    background-color: var(--primary-light);
+}
+
+.item-action:has(button:hover) {
     background-color: var(--primary-light);
 }
 
@@ -925,7 +942,8 @@ input[type="checkbox"]:disabled {
     }
 
     .categories-grid {
-        gap: 40px 15px;
+        grid-template-columns: 1fr;
+        grid-gap: 30px;
     }
 
     .picnic-participants,
@@ -991,9 +1009,12 @@ input[type="checkbox"]:disabled {
         margin-bottom: 40px;
     }
 
-    .categories-grid {
-        grid-template-columns: 1fr;
-        grid-gap: 30px;
+    .waiting-desktop {
+        display: none;
+    }
+
+    .waiting-mobile {
+        display: inline;
     }
 
 }
