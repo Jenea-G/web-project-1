@@ -220,3 +220,23 @@ The `requirements.txt` file was generated using `pip freeze > requirements.txt` 
 To test the full functionality of the application, I recommend registering a user, creating a picnic, adding and claiming items, inviting guests, and joining the picnic as a guest.
 
 You can then test the guest functionality by returning to the picnic using the invitation code and guest PIN, and trying to add, claim, and drop items.
+
+## Known Limitations and Out of Scope
+
+- SQLite is used for development and is not intended as the final database solution for a production deployment.
+- Account recovery and administration functionality is limited, as features such as password recovery, email notifications, and advanced user management were outside the scope of this project.
+- JavaScript is currently used mainly for progressive enhancement and interface interactions rather than replacing the server-side application architecture.
+- Further testing and code refactoring may be required before production use.
+- The application does not currently include features such as picnic sharing through email or social media, which were not part of the project requirements.
+
+## Future Development
+
+For further development of the application, I would consider adding the following functionality:
+
+- Allowing the organizer to manage guests, including viewing and removing participants.
+- Allowing guests to withdraw from a picnic.
+- Integrating the picnic location with an interactive map.
+- Allowing organizers to choose or upload a custom picnic illustration.
+- Adding a search function for items.
+- Allowing items to be sorted by claimant name.
+- Adding a poll for participants to suggest and vote on alternative picnic dates.
