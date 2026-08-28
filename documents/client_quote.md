@@ -27,7 +27,7 @@ Planning a picnic with multiple participants through messaging applications or s
 ## Must-have features
 
 1. Register, log in, and log out.
-2. Create a picnic (name, date, location).
+2. Create a picnic (name, date, location, invitation code).
 3. Create/generate an invitation code.
 4. View picnic details.
 5. Choose categories.

@@ -81,9 +81,7 @@ class Picnic(db.Model):
     
     def __repr__(self):
         return f"<Picnic {self.id}: '{self.picnic_name}'>"
-    
-    # ! need to store all the guests to display names on the page and to show who claimed items
-    
+      
 class ItemCategory(Enum):
     FOOD = "Food"
     DRINKS = "Drinks"
