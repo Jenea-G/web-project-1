@@ -22,7 +22,7 @@
 
                     <div>
                         <label for="date">Date</label>
-                        <input type="date" id="date" name="date" required value="{{ date or ''}}">
+                        <input type="date" id="date" name="date" min="{{ today }}" required value="{{ date or ''}}">
                     </div>
 
                     <div>
