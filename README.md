@@ -113,7 +113,8 @@ web-project-1/
 ├── .gitignore
 ├── app.py
 ├── models.py
-└── README.md
+├── README.md
+└── requirements.txt
 ```
 
 ## Technology choices
@@ -156,3 +157,66 @@ web-project-1/
 12. claim / unclaim item functionality
 13. edit / delete item functionality
 14. delete picnic
+
+## Installation and Setup
+
+To run the project locally, follow these steps:
+
+1. Clone the repository to your local machine.
+
+2. Open the project folder in a code editor (for example, VS Code).
+
+3. Create a virtual environment by running the following command in the terminal:
+
+   ```bash
+   python3 -m venv .venv
+   ```
+
+   Make sure the terminal is located in the project folder before running the command.
+
+4. Activate the virtual environment:
+
+   ```bash
+   . .venv/bin/activate
+   ```
+
+5. Install the project dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+6. Create a `.env` file in the project root and add a secret key:
+
+   ```text
+   SECRET_KEY=your-secret-key
+   ```
+
+7. Run the application:
+
+   ```bash
+   flask --app app run --debug
+   ```
+
+8. Open the application in your browser at:
+
+   `http://127.0.0.1:5000`
+
+### Alternative installation
+
+Instead of using `requirements.txt`, you can install the dependencies manually:
+
+```bash
+pip install Flask
+pip install python-dotenv
+pip install flask-login
+pip install Flask-SQLAlchemy
+```
+
+The `requirements.txt` file was generated using `pip freeze > requirements.txt` and contains the packages and versions used by the project.
+
+### Testing the application
+
+To test the full functionality of the application, I recommend registering a user, creating a picnic, adding and claiming items, inviting guests, and joining the picnic as a guest.
+
+You can then test the guest functionality by returning to the picnic using the invitation code and guest PIN, and trying to add, claim, and drop items.
