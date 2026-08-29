@@ -9,7 +9,7 @@ item_bp = Blueprint("item_bp", __name__)
 def add_item(picnic_id):
     picnic = Picnic.query.get_or_404(picnic_id)
     items = picnic.items
-    print(items)
+    #print(items)
 
     # Guest
     guest = Guest.query.filter_by(

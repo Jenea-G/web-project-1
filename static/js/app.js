@@ -153,7 +153,7 @@ function setCategoryIllustrations() {
   const illustrations = document.querySelectorAll(".category-img");
 
   illustrations.forEach((illustration) => {
-    const category = illustration.dataset.category;
+    const category = illustration.dataset.category.toLowerCase();
     illustration.src = `/static/images/category_icons/${category}.svg`;
   });
 }

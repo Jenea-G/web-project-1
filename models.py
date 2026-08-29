@@ -19,7 +19,7 @@ class User(UserMixin, db.Model):
 
     picnics = db.relationship(
         "Picnic",
-        back_populates="user" #refers to Picnic.user
+        back_populates="user" # refers to Picnic.user
     )
     claimed_items = db.relationship("Item", back_populates="claimed_by_user") # user - items relationship
 
@@ -90,7 +90,7 @@ class ItemCategory(Enum):
     ENTERTAINMENT = "Entertainment"
     SNACKS = "Snacks"
 
-# create Item model
+# Item model
 class Item(db.Model):
     __tablename__ = "item"
 
@@ -149,8 +149,7 @@ class Item(db.Model):
     
     # each item has a property is_claimed and methods: claim_by_user /claim_by_guest and drop
 
-
-# create Guest model
+# Guest model
 class Guest(db.Model):
     __tablename__= "guest"
     

@@ -22,7 +22,6 @@
     --accent-light-50: #f2d59678;
     --header-bg: #C9D0C6;
     --background: #FEFADF;
-    /* --background-50: rgb(254, 250, 223, 0.6); */
     --background-50: #FEFBE5;
     --text: #003103;
     --text-60: #00310396;
@@ -74,7 +73,6 @@ nav {
     height: 40px;
     margin-left: 20px;
     transition: 0.3s;
-    /* cursor: url(/static/images/flower.svg), auto; */
     border-radius: 50%;
 }
 
@@ -553,7 +551,6 @@ h3 {
     display: grid;
     grid-template-columns: 120px 1fr;
     gap: 15px;
-
     margin-bottom: 10px;
 }
 
@@ -575,7 +572,6 @@ h3 {
     padding: 40px;
     background: var(--background-50);
     border: 1px solid var(--accent);
-    /* background: white; */
     border-radius: 55px;
     margin-bottom: 50px;
 }
@@ -587,7 +583,6 @@ h2.unclaimed {
 .unclaimed-items-flex {
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: space-around; */
     gap: 3px 15px;
 }
 
@@ -722,7 +717,6 @@ h2.unclaimed {
 
 .item-action button.grab img {
     height: 28px;
-    /* transform: translateY(5px); */
 }
 
 .item-action button:hover {
