@@ -10,6 +10,8 @@ from routes.picnic import picnic_bp
 from routes.item import item_bp
 from routes.guest import guest_bp
 
+load_dotenv() # Load environment variables from .env
+
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///picnic_app.db")
