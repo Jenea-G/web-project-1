@@ -14,14 +14,14 @@ load_dotenv() # Load environment variables from .env
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///picnic_app.db")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+database_url = os.getenv("DATABASE_URL")
+# use PostgreSQL on Render; use SQLite locally.
+if database_url:
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///picnic_app.db")
 
-# register blueprints
-app.register_blueprint(user_bp)
-app.register_blueprint(picnic_bp)
-app.register_blueprint(item_bp)
-app.register_blueprint(guest_bp)
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # set the secret key from an envrionment variable.
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -31,6 +31,12 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+
+# register blueprints
+app.register_blueprint(user_bp)
+app.register_blueprint(picnic_bp)
+app.register_blueprint(item_bp)
+app.register_blueprint(guest_bp)
 
 @app.route("/")
 def home():
